@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "CUSTOMER")
-@Embeddable
 public class CustomerAccount extends Account{
 
     @OneToOne(mappedBy = "customer")

@@ -5,6 +5,7 @@ import asd.amazon.entity.CustomerAccount;
 import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.service.CustomerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,26 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Transactional(readOnly = false)
     public CustomerAccountDTO create(CustomerAccountDTO accountDTO){
         CustomerAccount account = mapAccount(accountDTO);
+        //TODO: check all the fields
         customerAccountRepository.save(account);
         return mapAccount(account);
 
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public CustomerAccountDTO login(final String username, final String password){
+        CustomerAccount account = customerAccountRepository.findByUsername(username);
+        if(account == null){
+            //TODO: EXCEPTION USERNAME NOT FOUND
+            return null;
+        }
+        //TODO: check password
+        return mapAccount(account);
+
+    }
+
+    //TODO: purchaseList maybe not mapped
     private CustomerAccount mapAccount(CustomerAccountDTO dto){
         CustomerAccount c = new CustomerAccount();
         c.setUsername(dto.getUsername());
@@ -34,6 +50,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         return c;
     }
 
+    //TODO: purchaseList maybe not mapped
     private CustomerAccountDTO mapAccount(CustomerAccount account){
         CustomerAccountDTO dto = new CustomerAccountDTO();
         dto.setId(account.getId());

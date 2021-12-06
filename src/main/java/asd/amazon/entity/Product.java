@@ -8,8 +8,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "PRODUCT")
-@Embeddable
-public abstract class Product implements Serializable {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue

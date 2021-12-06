@@ -27,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = false)
     public ProductDTO create(ProductDTO productDTO) {
+        //TODO: check all the field(?)
         Product product = mapProduct(productDTO);
         productRepository.save(product);
         productDTO.setId(product.getId());
