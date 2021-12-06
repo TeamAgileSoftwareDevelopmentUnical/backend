@@ -57,7 +57,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         dto.setUsername(account.getUsername());
         dto.setPassword(account.getPassword());
         dto.setName(account.getName());
-        dto.setSurname(account.getUsername());
+        dto.setSurname(account.getSurname());
         dto.setEmail(account.getEmail());
 
         return dto;
