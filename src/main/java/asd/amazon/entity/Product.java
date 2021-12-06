@@ -4,12 +4,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "PRODUCT")
-public class Product implements Serializable {
+@Embeddable
+public abstract class Product implements Serializable {
 
     @Id
     @GeneratedValue
@@ -23,24 +23,18 @@ public class Product implements Serializable {
     @Column(name = "DESCRIPTION", nullable = true)
     private String description;
 
-    @Column(name = "PRICE", nullable = false)
-    private Float price;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="SELLER_ID", referencedColumnName = "ID")
-    private SellerAccount seller;
-
-    @Column(name="AVAILABLE_QUANTITY", nullable = false)
-    private Float availableQuantity;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "TYPE", nullable = true) //TODO: add nullable = false
+    @Column(name = "TYPE", nullable = true)
     private Type type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PURHCASE_ID", referencedColumnName = "ID")
+
+
+    @OneToOne
     private Purchase purchase;
 
+    @OneToOne
+    private Batch batch;
+    
     //CATEGORY = ENUM?
     public enum Type{
         VEGETABLE,

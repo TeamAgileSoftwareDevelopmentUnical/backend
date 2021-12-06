@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -17,7 +16,6 @@ public abstract class Account implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    //TODO: maybe class Credentials(username,password)?
     @Column(name = "USERNAME", nullable = false , unique = true)
     private String username;
 

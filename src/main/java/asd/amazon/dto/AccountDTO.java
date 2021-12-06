@@ -2,9 +2,6 @@ package asd.amazon.dto;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import java.util.UUID;
-
 @Data
 public abstract class AccountDTO {
 

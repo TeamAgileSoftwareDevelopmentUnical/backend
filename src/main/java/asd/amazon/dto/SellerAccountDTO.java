@@ -1,9 +1,7 @@
 package asd.amazon.dto;
 
-import asd.amazon.entity.Product;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

@@ -1,14 +1,10 @@
 package asd.amazon.dto;
 
 import asd.amazon.entity.CustomerAccount;
-import asd.amazon.entity.Product;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 public class PurchaseDTO {
