@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "CHART")
-public class Chart implements Serializable {
+@Table(name = "PURCHASE")
+public class Purchase implements Serializable {
 
     @Id
     @GeneratedValue
@@ -28,11 +28,7 @@ public class Chart implements Serializable {
     private Date date;
 
     //an order has a list of products and a product can refers or not to just one order?
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PURCHASE",
-            joinColumns = {@JoinColumn(name = "CHART_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase")
     private List<Product> soldProducts;
 
     @Column(name = "SHIPPING_ADDRESS", nullable = false)

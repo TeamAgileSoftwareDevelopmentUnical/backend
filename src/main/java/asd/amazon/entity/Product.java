@@ -37,8 +37,9 @@ public class Product implements Serializable {
     @Column(name = "TYPE", nullable = true) //TODO: add nullable = false
     private Type type;
 
-    @ManyToMany(mappedBy = "soldProducts")
-    private List<Chart> charts;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PURHCASE_ID", referencedColumnName = "ID")
+    private Purchase purchase;
 
     //CATEGORY = ENUM?
     public enum Type{

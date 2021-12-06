@@ -20,7 +20,7 @@ public class ProductDTO {
 
     private Float availableQuantity;
 
-    private List<ChartDTO> charts;
+    private List<PurchaseDTO> charts;
 
     private Product.Type type;
 }

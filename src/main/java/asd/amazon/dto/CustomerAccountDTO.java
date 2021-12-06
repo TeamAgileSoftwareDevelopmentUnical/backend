@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class CustomerAccountDTO extends AccountDTO {
 
-    private List<ChartDTO> charts;
+    private List<PurchaseDTO> charts;
 }
