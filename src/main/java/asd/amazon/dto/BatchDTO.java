@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class BatchDTO {
 	private Long id;
-	private List<ProductDTO> product;
+	private List<ProductDTO> products;
 	private SellerAccountDTO seller;
 	private Float price;
 	private Float availableQuantity;
