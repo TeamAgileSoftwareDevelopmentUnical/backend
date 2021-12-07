@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang3.Validate;
 
 @Service
 public class CustomerAccountServiceImpl implements CustomerAccountService {
@@ -18,11 +19,25 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Override
     @Transactional(readOnly = false)
     public CustomerAccountDTO create(CustomerAccountDTO accountDTO){
+
+        Validate.notNull(accountDTO);
+        Validate.notNull(accountDTO.getUsername());
+        Validate.notNull(accountDTO.getPassword());
+        Validate.notNull(accountDTO.getName());
+        Validate.notNull(accountDTO.getSurname());
+        Validate.notNull(accountDTO.getEmail());
+        Validate.notNull(accountDTO.getPurchase());
+
+        Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
+        Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
+        Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
+        Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
+
         CustomerAccount account = mapAccount(accountDTO);
         //TODO: check all the fields
         customerAccountRepository.save(account);
         return mapAccount(account);
-
     }
 
     @Override
