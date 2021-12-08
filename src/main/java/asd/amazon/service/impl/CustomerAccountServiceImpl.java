@@ -50,7 +50,17 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         }
         //TODO: check password
         return mapAccount(account);
+    }
 
+    @Override
+    public CustomerAccountDTO authenticate(String username, String password) {
+        CustomerAccount account = customerAccountRepository.findByUsernameAndPassword(username, password);
+        if(account == null){
+            //TODO: EXCEPTION USERNAME NOT FOUND
+            return null;
+        }
+        //TODO: check password
+        return mapAccount(account);
     }
 
     //TODO: purchaseList maybe not mapped

@@ -2,10 +2,11 @@ package asd.amazon.Security;
 
 import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import asd.amazon.repository.CustomerAccountRepository;
+import asd.amazon.service.CustomerAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -14,10 +15,17 @@ import java.util.Base64;
 @RestController
 @CrossOrigin
 public class AccountController {
+
+    @Autowired
+    private CustomerAccountService customerAccountService;
+
     @RequestMapping("/login")
     public boolean login(@RequestBody CustomerAccount user) {
-        return
-                user.getUsername().equals("user") && user.getPassword().equals("password");
+
+        if(customerAccountService.authenticate(user.getUsername(), user.getPassword()) != null)
+            return true;
+
+        return false;
     }
 
     @RequestMapping("/user")
