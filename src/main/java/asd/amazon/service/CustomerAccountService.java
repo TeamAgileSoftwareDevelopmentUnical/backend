@@ -10,4 +10,5 @@ public interface CustomerAccountService {
 
     public CustomerAccountDTO authenticate(final String username, final String password);
 
+    public CustomerAccountDTO getCustomerAccountById(Long id);
 }
