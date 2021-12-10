@@ -4,5 +4,7 @@ import asd.amazon.dto.SellerAccountDTO;
 
 public interface SellerAccountService {
 
-    SellerAccountDTO create(SellerAccountDTO sellerAccountDTO);
+    public SellerAccountDTO create(SellerAccountDTO sellerAccountDTO);
+
+    public void delete(SellerAccountDTO sellerAccountDTO);
 }
