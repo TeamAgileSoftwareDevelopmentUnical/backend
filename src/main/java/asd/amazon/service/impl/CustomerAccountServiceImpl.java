@@ -34,8 +34,15 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
             return null;
         }
         //TODO: check password
+        customerAccountRepository.checkPassword(password, username);
         return mapAccount(account);
 
+    }
+
+    @Override
+    @Transactional
+    public void delete(CustomerAccountDTO accountDTO)   {
+        customerAccountRepository.deactivateUser(mapAccount(accountDTO).getUsername());
     }
 
     //TODO: purchaseList maybe not mapped

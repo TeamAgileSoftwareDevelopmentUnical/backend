@@ -22,6 +22,12 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         return mapSellerAccountToDTO(sellerAccountRepository.save(mapSellerAccountToEntity(sellerAccountDTO)));
     }
 
+    @Override
+    @Transactional
+    public void delete(SellerAccountDTO accountDTO)   {
+        sellerAccountRepository.deactivateUser(mapSellerAccountToEntity(accountDTO).getUsername());
+    }
+
     private SellerAccount mapSellerAccountToEntity(SellerAccountDTO sellerAccountDTO){
 
         SellerAccount sellerAccount = new SellerAccount();

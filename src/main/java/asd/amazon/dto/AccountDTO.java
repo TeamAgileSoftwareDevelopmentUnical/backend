@@ -16,4 +16,6 @@ public abstract class AccountDTO {
     private String surname;
 
     private String email;
+
+    private Boolean active;
 }

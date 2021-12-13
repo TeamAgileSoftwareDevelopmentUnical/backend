@@ -8,4 +8,6 @@ public interface CustomerAccountService {
 
     public CustomerAccountDTO login(final String username, final String password);
 
+    public void delete(CustomerAccountDTO accountDTO);
+
 }
