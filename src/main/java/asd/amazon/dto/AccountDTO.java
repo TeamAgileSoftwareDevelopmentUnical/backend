@@ -3,7 +3,7 @@ package asd.amazon.dto;
 import lombok.Data;
 
 @Data
-public abstract class AccountDTO {
+public class AccountDTO {
 
     private Long id;
 

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Optional;
+
 @Service
 public class CustomerAccountServiceImpl implements CustomerAccountService {
 
@@ -50,7 +52,26 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         }
         //TODO: check password
         return mapAccount(account);
+    }
 
+    @Override
+    public CustomerAccountDTO authenticate(String username, String password) {
+        CustomerAccount account = customerAccountRepository.findByUsernameAndPassword(username, password);
+        if(account == null){
+            //TODO: EXCEPTION USERNAME NOT FOUND
+            return null;
+        }
+        //TODO: check password
+        return mapAccount(account);
+    }
+
+    @Override
+    public CustomerAccountDTO getCustomerAccountById(Long id) {
+        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
+        if(customerAccount.isPresent())
+            return mapAccount(customerAccount.get());
+        else    //TODO: throw an exception
+            return null;
     }
 
     //TODO: purchaseList maybe not mapped

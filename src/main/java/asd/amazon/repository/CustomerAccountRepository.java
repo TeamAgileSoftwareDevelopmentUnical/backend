@@ -13,5 +13,6 @@ public interface CustomerAccountRepository extends JpaRepository<CustomerAccount
 
     CustomerAccount findByUsername(@Param(value = "username") String username);
 
+    CustomerAccount findByUsernameAndPassword(@Param(value = "username") String username, @Param(value = "password") String password);
 
 }

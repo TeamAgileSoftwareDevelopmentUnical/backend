@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ACCOUNT")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Account implements Serializable {
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
