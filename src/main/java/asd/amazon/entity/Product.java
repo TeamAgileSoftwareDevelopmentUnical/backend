@@ -1,17 +1,26 @@
 package asd.amazon.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Data
+
 @Entity
 @Table(name = "PRODUCT")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -26,22 +35,29 @@ public class Product implements Serializable {
     @Column(name = "TYPE", nullable = true)
     private Type type;
 
-
-
-    @OneToOne
+    @OneToOne(mappedBy = "product")
     private Purchase purchase;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "BATCH_ID",referencedColumnName = "ID")
     private Batch batch;
-    
-    //CATEGORY = ENUM?
+
     public enum Type{
         VEGETABLE,
         MEAT,
         CEREAL
     }
 
-    //addition date? (to identify when a product was added by a seller)
-//    @Column(name = "ADDITION_DATE",)
-//    private LocalDateTime additionDate;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Product product = (Product) o;
+        return id != null && Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

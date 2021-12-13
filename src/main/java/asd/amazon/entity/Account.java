@@ -12,7 +12,7 @@ import java.io.Serializable;
 public abstract class Account implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 

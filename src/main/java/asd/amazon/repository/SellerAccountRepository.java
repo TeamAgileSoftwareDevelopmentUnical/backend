@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SellerAccountRepository  extends JpaRepository<SellerAccount, Long>, JpaSpecificationExecutor<SellerAccount> {
+    SellerAccount findAllByUsername(String username);
 }
