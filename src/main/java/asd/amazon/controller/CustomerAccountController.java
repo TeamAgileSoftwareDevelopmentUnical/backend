@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(CustomerAccountController.ROOT)
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CustomerAccountController {
 
     public static final String ROOT = "/customer-account";
@@ -32,14 +32,16 @@ public class CustomerAccountController {
     @PostMapping(LOGIN)
     public ResponseEntity<CustomerAccountDTO> login(@RequestParam("username") String username,
                                                     @RequestParam("password") String password) {
+        System.out.println("ciao controller");
         return ResponseEntity.ok(customerAccountService.login(username, password));
     }
 
     @GetMapping(GETACCOUNT)
-    public ResponseEntity<CustomerAccountDTO> getCustomerAccount(@RequestHeader(value = "Authorization") String token, @RequestParam("id") Long id){
-        System.out.println(token);
-        //if (jwtConfiguration.validateToken(header.get("Authorization")))
-            return ResponseEntity.ok(customerAccountService.getCustomerAccountById(id));
+    public ResponseEntity<CustomerAccountDTO> getCustomerAccount(@RequestHeader(value = "Authorization") HttpHeaders header, @RequestParam("id") Long id){
+        System.out.println(header);
+        //if (jwtConfiguration.validateToken(header.getToken()))
+        //    return ResponseEntity.ok(customerAccountService.getCustomerAccountById(id));
+        return null;
     }
 
 }

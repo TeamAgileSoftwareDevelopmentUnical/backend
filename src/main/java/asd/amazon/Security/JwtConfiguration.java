@@ -36,7 +36,7 @@ public class JwtConfiguration {
     }
 
     private Claims getClaimsFromToken(String token){
-
+        System.out.println("claims token");
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
@@ -45,6 +45,7 @@ public class JwtConfiguration {
     }
 
     public String generateToken(Account user){
+        System.out.println("generate token");
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("id",user.getId());

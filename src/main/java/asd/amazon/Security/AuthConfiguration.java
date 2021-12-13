@@ -13,6 +13,7 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
+        System.out.println("configure 1");
         auth
                 .inMemoryAuthentication()
                 .withUser("user")
@@ -23,9 +24,11 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
+        System.out.println("configure 2");
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/profile/").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
