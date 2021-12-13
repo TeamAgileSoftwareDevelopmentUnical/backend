@@ -10,4 +10,10 @@ public interface CustomerAccountService {
 
     public void delete(CustomerAccountDTO accountDTO);
 
+<<<<<<< Updated upstream
+=======
+    public CustomerAccountDTO getCustomerAccountById(Long id);
+
+    public CustomerAccountDTO update(Long id, final String name, final String surname, final String mail);
+>>>>>>> Stashed changes
 }

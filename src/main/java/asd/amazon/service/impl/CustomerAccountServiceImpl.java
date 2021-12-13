@@ -45,6 +45,21 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         customerAccountRepository.deactivateUser(mapAccount(accountDTO).getUsername());
     }
 
+    @Override
+    public CustomerAccountDTO update(Long id, String name, String surname, String mail) {
+        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
+        if(customerAccount.isPresent())
+        {
+            customerAccount.get().setName(name);
+            customerAccount.get().setSurname(surname);
+            customerAccount.get().setEmail(mail);
+            //TODO: repository.SAVE?
+            return mapAccount(customerAccount.get());
+        }
+        else    //TODO: THROW AN EXCEPTION
+            return null;
+    }
+
     //TODO: purchaseList maybe not mapped
     private CustomerAccount mapAccount(CustomerAccountDTO dto){
         CustomerAccount c = new CustomerAccount();
