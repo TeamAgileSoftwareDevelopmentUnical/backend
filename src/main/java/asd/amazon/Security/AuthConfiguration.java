@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +27,7 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
             throws Exception {
         System.out.println("configure 2");
         http.csrf().disable()
+                .cors().configurationSource(r -> new CorsConfiguration().applyPermitDefaultValues()).and()
                 .authorizeRequests()
                 .antMatchers( "/*").permitAll()
 //                .antMatchers("/*").permitAll();
