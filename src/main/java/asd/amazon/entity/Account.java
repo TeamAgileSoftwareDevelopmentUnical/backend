@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Account implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
@@ -30,4 +30,7 @@ public class Account implements Serializable {
 
     @Column(name = "EMAIL", nullable = false)
     private String email;
+
+    @Column(name = "ACTIVE", nullable = false)
+    private Boolean active;
 }

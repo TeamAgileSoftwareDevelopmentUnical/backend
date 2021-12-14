@@ -2,34 +2,31 @@ package asd.amazon.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
 @Entity
 @Table(name = "BATCH")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Batch implements Serializable{
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private Long id;
 
 	// @EmbeddedId
-	@OneToOne
-	@JoinColumn(name = "PRODUCT_ID")
+	@OneToOne(mappedBy = "batch")
 	private Product product;
 
 	// @EmbeddedId
 	@OneToOne
-	@JoinColumn(name = "SELLER_ID")
+	@JoinColumn(name = "SELLER_ID",referencedColumnName = "ID")
 	private SellerAccount seller;
 
 	@Column(name = "PRICE", nullable = false)

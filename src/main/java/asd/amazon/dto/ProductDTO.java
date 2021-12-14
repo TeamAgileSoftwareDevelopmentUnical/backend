@@ -16,13 +16,9 @@ public class ProductDTO {
 
     private Float price;
 
-    private SellerAccountDTO seller;
+    private Long sellerID;
 
     private Float availableQuantity;
 
     private Product.Type type;
-
-    private List<PurchaseDTO> purchase;
-
-    private BatchDTO batch;
 }
