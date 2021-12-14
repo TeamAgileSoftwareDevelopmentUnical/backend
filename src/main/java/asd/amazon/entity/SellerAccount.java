@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Table(name = "SELLER")
 public class SellerAccount extends Account{
 
-    @OneToOne
+    @OneToOne(mappedBy = "seller")
     private Batch batch;
 
-    @Column(name = "PAYMENT_ADDRESS", nullable = false)
+    @Column(name = "PAYMENT_ADDRESS", nullable = true)
     private String paymentAddress;
 }
