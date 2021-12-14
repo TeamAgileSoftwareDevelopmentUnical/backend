@@ -31,6 +31,6 @@ public class Account implements Serializable {
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "ACTIVE", nullable = false)
+    @Column(name = "ACTIVE", nullable = true)
     private Boolean active;
 }

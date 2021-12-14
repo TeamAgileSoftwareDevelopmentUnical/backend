@@ -53,8 +53,8 @@ public class AccountController {
                 .decode(authToken)).split(":")[0];
     }
 
-    @GetMapping("/profile/")
-    public ResponseEntity<CustomerAccountDTO> getCustomerAccount(@RequestHeader(value = "Authorization") HttpHeaders header, @RequestParam("id") Long id){
+    @GetMapping("/profile/" + "{id}")
+    public ResponseEntity<CustomerAccountDTO> getCustomerAccount(@RequestHeader(value = "Authorization") HttpHeaders header, @PathVariable("id") Long id){
         System.out.println("headerrr"+header);
         //if (jwtConfiguration.validateToken(header.getToken()))
         //    return ResponseEntity.ok(customerAccountService.getCustomerAccountById(id));

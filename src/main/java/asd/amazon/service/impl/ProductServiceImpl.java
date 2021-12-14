@@ -39,6 +39,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDTO create(ProductDTO productDTO) {
+        return null;
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public Boolean uploadNewProduct(ProductDTO productDTO) {
         Batch batch = new Batch();

@@ -27,8 +27,8 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
         System.out.println("configure 2");
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/profile/").permitAll()
+                .antMatchers( "/*").permitAll()
+//                .antMatchers("/*").permitAll();
                 .anyRequest()
                 .authenticated()
                 .and()
