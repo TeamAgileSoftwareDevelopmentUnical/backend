@@ -51,6 +51,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
             return null;
         }
         //TODO: check password
+        customerAccountRepository.checkPassword(password, username);
         return mapAccount(account);
     }
 
@@ -71,6 +72,27 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         if(customerAccount.isPresent())
             return mapAccount(customerAccount.get());
         else    //TODO: throw an exception
+            return null;
+    }
+
+    @Override
+    @Transactional
+    public void delete(CustomerAccountDTO accountDTO)   {
+        customerAccountRepository.deactivateUser(mapAccount(accountDTO).getUsername());
+    }
+
+    @Override
+    public CustomerAccountDTO update(Long id, String name, String surname, String mail) {
+        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
+        if(customerAccount.isPresent())
+        {
+            customerAccount.get().setName(name);
+            customerAccount.get().setSurname(surname);
+            customerAccount.get().setEmail(mail);
+            //TODO: repository.SAVE?
+            return mapAccount(customerAccount.get());
+        }
+        else    //TODO: THROW AN EXCEPTION
             return null;
     }
 

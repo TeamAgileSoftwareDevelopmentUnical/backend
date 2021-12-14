@@ -10,13 +10,15 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDTO> getAll();
+    public List<ProductDTO> getAll();
 
-    Boolean uploadNewProduct(ProductDTO product);
+    public ProductDTO create(ProductDTO productDTO);
+  
+    public Boolean uploadNewProduct(ProductDTO product);
 
-    ProductResponse getProductFromBatch(Long productId);
+    public ProductResponse getProductFromBatch(Long productId);
 
-    Boolean updateProduct(Long id, ProductUpdateRequest request);
+    public Boolean updateProduct(Long id, ProductUpdateRequest request);
 
-    Boolean deleteProduct(Long productId);
+    public Boolean deleteProduct(Long productId);
 }
