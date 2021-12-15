@@ -8,6 +8,7 @@ public class AuthConfiguration /*extends WebSecurityConfigurerAdapter*/ {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
+        System.out.println("configure 1");
         auth
                 .inMemoryAuthentication()
                 .withUser("user")
@@ -18,9 +19,16 @@ public class AuthConfiguration /*extends WebSecurityConfigurerAdapter*/ {
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
+<<<<<<< HEAD
         http.cors().and().csrf().disable()
+=======
+        System.out.println("configure 2");
+        http.csrf().disable()
+                .cors().configurationSource(r -> new CorsConfiguration().applyPermitDefaultValues()).and()
+>>>>>>> b7301f2859513bd69223698efeb7107f97de3999
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers( "/*").permitAll()
+//                .antMatchers("/*").permitAll();
                 .anyRequest()
                 .authenticated()
                 .and()

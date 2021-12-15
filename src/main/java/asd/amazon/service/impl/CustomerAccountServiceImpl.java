@@ -1,6 +1,8 @@
 package asd.amazon.service.impl;
 
+import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
+import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
 import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.service.CustomerAccountService;
@@ -45,24 +47,33 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Override
     @Transactional(readOnly = true)
     public CustomerAccountDTO login(final String username, final String password){
+        System.out.println("login");
         CustomerAccount account = customerAccountRepository.findByUsername(username);
         if(account == null){
             //TODO: EXCEPTION USERNAME NOT FOUND
             return null;
         }
         //TODO: check password
+        customerAccountRepository.checkPassword(password, username);
         return mapAccount(account);
     }
 
     @Override
-    public CustomerAccountDTO authenticate(String username, String password) {
-        CustomerAccount account = customerAccountRepository.findByUsernameAndPassword(username, password);
+    public AccountDTO authenticate(String username, String password) {
+        System.out.println("service");
+        System.out.println("acc= " + customerAccountRepository.findByUsernameAndPassword(username, password));
+        Account account = customerAccountRepository.findByUsernameAndPassword(username, password);
         if(account == null){
             //TODO: EXCEPTION USERNAME NOT FOUND
             return null;
         }
+
         //TODO: check password
-        return mapAccount(account);
+        AccountDTO a = new AccountDTO();
+        a.setId(account.getId());
+        a.setUsername(account.getUsername());
+        a.setPassword(account.getPassword());
+        return a;
     }
 
     @Override
@@ -71,6 +82,27 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         if(customerAccount.isPresent())
             return mapAccount(customerAccount.get());
         else    //TODO: throw an exception
+            return null;
+    }
+
+    @Override
+    @Transactional
+    public void delete(CustomerAccountDTO accountDTO)   {
+        customerAccountRepository.deactivateUser(mapAccount(accountDTO).getUsername());
+    }
+
+    @Override
+    public CustomerAccountDTO update(Long id, String name, String surname, String mail) {
+        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
+        if(customerAccount.isPresent())
+        {
+            customerAccount.get().setName(name);
+            customerAccount.get().setSurname(surname);
+            customerAccount.get().setEmail(mail);
+            //TODO: repository.SAVE?
+            return mapAccount(customerAccount.get());
+        }
+        else    //TODO: THROW AN EXCEPTION
             return null;
     }
 
