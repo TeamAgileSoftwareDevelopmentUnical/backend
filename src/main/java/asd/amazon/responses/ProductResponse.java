@@ -1,6 +1,7 @@
 package asd.amazon.responses;
 
 import asd.amazon.entity.Product;
+import asd.amazon.entity.enums.Type;
 import lombok.*;
 
 @Data
@@ -15,7 +16,7 @@ public class ProductResponse {
 
     private String productDesc;
 
-    private Product.Type type;
+    private Type type;
 
     private BatchResponse batch;
 

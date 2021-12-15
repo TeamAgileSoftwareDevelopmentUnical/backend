@@ -33,9 +33,13 @@ public class ProductServiceImpl implements ProductService {
     private BatchRepository batchRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<ProductDTO> getAll() {
-        return mapProducts(productRepository.findAll());
+    public List<ProductResponse> getProductBy(Long sellerID) {
+        List<ProductResponse> responses = new ArrayList<>();
+        SellerAccount seller = sellerAccountRepository.getById(sellerID);
+        seller.getProduct().forEach(product -> {
+            responses.add(mapProduct(product));
+        });
+        return responses;
     }
 
     @Override
@@ -44,46 +48,38 @@ public class ProductServiceImpl implements ProductService {
         Batch batch = new Batch();
         batch.setPrice(productDTO.getPrice());
         batch.setAvailableQuantity(productDTO.getAvailableQuantity());
-        batch.setSeller(sellerAccountRepository.getById(productDTO.getSellerID()));
-        Batch savedBatch = batchRepository.save(batch);
+        Batch newBatch = batchRepository.save(batch);
 
         Product product = new Product();
         product.setDescription(productDTO.getDescription());
         product.setType(productDTO.getType());
         product.setName(productDTO.getName());
-        product.setBatch(savedBatch);
+        product.setBatch(newBatch);
+        product.setSellerAccounts(sellerAccountRepository.getById(productDTO.getSellerID()));
         productRepository.save(product);
+
         return true;
     }
 
     @Override
-    public ProductResponse getProductFromBatch(Long productId) {
-        Product product = productRepository.getById(productId);
-
-        ProductResponse response = new ProductResponse();
-        response.setProductId(product.getId());
-        response.setProductName(product.getName());
-        response.setProductDesc(product.getDescription());
-        response.setType(product.getType());
-        response.setBatch(setBatch(product));
-        response.setSeller(setSellerInfo(product));
-
-        return response;
+    public ProductResponse getProductFromBatch(Long productID) {
+        Product product = productRepository.getById(productID);
+        return product.getId()>0?mapProduct(product):null;
     }
 
     @Override
     public Boolean updateProduct(Long id, ProductUpdateRequest request) {
         Product product = productRepository.getById(id);
-        if (product!=null){
+        if (product.getId() > 0){
+            product.setName(request.getProductName());
+            product.setDescription(request.getProductDescription());
+            Product updatedProduct = productRepository.save(product);
+
             Batch batch = product.getBatch();
             batch.setAvailableQuantity(request.getProductQuantity());
             batch.setPrice(request.getProductPrice());
+            batch.setProduct(updatedProduct);
             batchRepository.save(batch);
-
-            product.setName(request.getProductName());
-            product.setDescription(request.getProductDescription());
-
-            productRepository.save(product);
 
             return true;
         }
@@ -94,49 +90,38 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Boolean deleteProduct(Long productId) {
         Product product = productRepository.getById(productId);
-        if(product != null){
-            batchRepository.delete(product.getBatch());
+        if (product.getId()>0){
             productRepository.delete(product);
             return true;
         }
         return false;
     }
 
-    private SellerResponse setSellerInfo(Product product) {
+    private SellerResponse setSellerInfo(SellerAccount seller) {
         SellerResponse sellerResponse = new SellerResponse();
-        sellerResponse.setSellerID(product.getBatch().getSeller().getId());
-        sellerResponse.setUsername(product.getBatch().getSeller().getUsername());
-        sellerResponse.setName(product.getBatch().getSeller().getName());
-        sellerResponse.setSurname(product.getBatch().getSeller().getSurname());
+        sellerResponse.setSellerID(seller.getId());
+        sellerResponse.setUsername(seller.getUsername());
+        sellerResponse.setName(seller.getName());
+        sellerResponse.setSurname(seller.getSurname());
         return sellerResponse;
     }
 
-    private BatchResponse setBatch(Product product) {
-        BatchResponse batch = new BatchResponse();
-        batch.setBatchID(product.getBatch().getId());
-        batch.setProductPrice(product.getBatch().getPrice());
-        batch.setAvailableQuantity(product.getBatch().getAvailableQuantity());
-        return batch;
+    private BatchResponse setBatch(Batch batch) {
+        BatchResponse response = new BatchResponse();
+        response.setBatchID(batch.getId());
+        response.setProductPrice(batch.getPrice());
+        response.setAvailableQuantity(batch.getAvailableQuantity());
+        return response;
     }
 
-
-    private Product mapProduct(ProductDTO productDTO){//TODO: do map
-        Product product = new Product();
-        product.setId(productDTO.getId());
-        product.setName(productDTO.getName());
-        return product;
-    }
-    private ProductDTO mapProduct(Product product){//TODO: do map
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        return productDTO;
-    }
-    private List<ProductDTO> mapProducts(List<Product> products){
-        List<ProductDTO> toReturn = new ArrayList<>();
-        for(Product p : products){
-            toReturn.add(mapProduct(p));
-        }
-        return toReturn;
+    private ProductResponse mapProduct(Product product){//TODO: do map
+        ProductResponse response = new ProductResponse();
+        response.setProductId(product.getId());
+        response.setProductName(product.getName());
+        response.setProductDesc(product.getDescription());
+        response.setType(product.getType());
+        response.setBatch(setBatch(product.getBatch()));
+        response.setSeller(setSellerInfo(product.getSellerAccounts()));
+        return response;
     }
 }

@@ -1,6 +1,7 @@
 package asd.amazon.dto;
 
 import asd.amazon.entity.Product;
+import asd.amazon.entity.enums.Type;
 import lombok.Data;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public class ProductDTO {
 
     private Float availableQuantity;
 
-    private Product.Type type;
+    private Type type;
 }

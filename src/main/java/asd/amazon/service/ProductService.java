@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDTO> getAll();
+    List<ProductResponse> getProductBy(Long sellerID);
 
     Boolean uploadNewProduct(ProductDTO product);
 

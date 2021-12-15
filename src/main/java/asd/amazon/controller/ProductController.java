@@ -7,55 +7,44 @@ import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.service.BatchService;
 import asd.amazon.service.ProductService;
+import asd.amazon.utils.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
-@RequestMapping(ProductController.ROOT)
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping(CommonConstant.PRODUCT_ROOT)
 public class ProductController {
-
-    public static final String ROOT = "/product";
-
-    public static final String CREATE = "/create";
-
-    public static final String UPDATE = "/update";
-
-    public static final String GETALL = "/get-all";
-
-
-    public static final String UPLOAD = "/upload-product";
 
     @Autowired
     private ProductService productService;
-    @Autowired
-    private BatchService batchService;
 
-    @GetMapping(GETALL)
-    public ResponseEntity<List<ProductDTO>> getAll(){
-        return ResponseEntity.ok(productService.getAll());
+    @GetMapping(CommonConstant.GET_ALL_PRODUCT)
+    public ResponseEntity<List<ProductResponse>> getAllProductBy(@RequestParam(value = "seller_id")Long seller_id){
+        return ResponseEntity.ok().body(productService.getProductBy(seller_id));
     }
 
-    @PostMapping(UPLOAD)
-    public Boolean uploadNewProduct(@RequestBody ProductDTO product){
-        return productService.uploadNewProduct(product);
+    @PostMapping(CommonConstant.PRODUCT_UPLOAD)
+    public ResponseEntity<Boolean> uploadNewProduct(@RequestBody ProductDTO product){
+        return ResponseEntity.ok().body(productService.uploadNewProduct(product));
     }
 
-    @GetMapping(value = "/get-product-by")
-    public ResponseEntity<ProductResponse> getProductBy(@RequestParam(name = "id") Long id){
-       return ResponseEntity.ok(productService.getProductFromBatch(id));
+    @GetMapping(CommonConstant.GET_PRODUCT)
+    public ResponseEntity<ProductResponse> getProductBy(@RequestParam(name = "product_id") Long product_id){
+        return ResponseEntity.ok().body(productService.getProductFromBatch(product_id));
     }
 
-    @PatchMapping(value = "/update-product")
-    public Boolean updateProduct(@RequestParam(name = "id")Long Id, @RequestBody ProductUpdateRequest request){
-        return productService.updateProduct(Id,request);
+    @PatchMapping(CommonConstant.PRODUCT_UPDATE)
+    public ResponseEntity<Boolean> updateProduct(@RequestParam(name = "id")Long Id, @RequestBody ProductUpdateRequest request){
+        return ResponseEntity.ok().body(productService.updateProduct(Id,request));
     }
 
-    @DeleteMapping(value = "/delete-product")
-    public Boolean deleteProduct(@RequestParam(name = "id") Long id){
-        return productService.deleteProduct(id);
+    @DeleteMapping(CommonConstant.PRODUCT_DELETE)
+    public ResponseEntity<Boolean> deleteProduct(@RequestParam(name = "id") Long id){
+        return ResponseEntity.ok().body(productService.deleteProduct(id));
     }
 }

@@ -1,5 +1,6 @@
 package asd.amazon.entity;
 
+import asd.amazon.entity.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -39,14 +41,12 @@ public class Product implements Serializable {
     private Purchase purchase;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "BATCH_ID",referencedColumnName = "ID")
+    @JoinColumn(name = "BATCH_ID", referencedColumnName = "ID")
     private Batch batch;
 
-    public enum Type{
-        VEGETABLE,
-        MEAT,
-        CEREAL
-    }
+    @ManyToOne
+    @JoinColumn(name = "SELLER_ID", referencedColumnName = "ID")
+    private SellerAccount sellerAccounts;
 
     @Override
     public boolean equals(Object o) {
