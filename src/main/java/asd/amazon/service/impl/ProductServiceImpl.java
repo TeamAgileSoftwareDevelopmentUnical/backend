@@ -73,8 +73,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean updateProduct(Long id, ProductUpdateRequest request) {
-        Product product = productRepository.getById(id);
+    public Boolean updateProduct(ProductUpdateRequest request) {
+        Product product = productRepository.getById(request.getProductID());
         if (product.getId() > 0){
             product.setName(request.getProductName());
             product.setDescription(request.getProductDescription());

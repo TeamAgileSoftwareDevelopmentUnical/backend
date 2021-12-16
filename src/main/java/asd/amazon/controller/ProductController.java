@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
 @RestController
 @RequestMapping(CommonConstant.PRODUCT_ROOT)
 public class ProductController {
@@ -38,9 +38,9 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getProductFromBatch(product_id));
     }
 
-    @PatchMapping(CommonConstant.PRODUCT_UPDATE)
-    public ResponseEntity<Boolean> updateProduct(@RequestParam(name = "id")Long Id, @RequestBody ProductUpdateRequest request){
-        return ResponseEntity.ok().body(productService.updateProduct(Id,request));
+    @PostMapping(CommonConstant.PRODUCT_UPDATE)
+    public ResponseEntity<Boolean> updateProduct(@RequestBody ProductUpdateRequest request){
+        return ResponseEntity.ok().body(productService.updateProduct(request));
     }
 
     @DeleteMapping(CommonConstant.PRODUCT_DELETE)

@@ -18,7 +18,7 @@ public interface ProductService {
 
     public ProductResponse getProductFromBatch(Long productId);
 
-    public Boolean updateProduct(Long id, ProductUpdateRequest request);
+    public Boolean updateProduct(ProductUpdateRequest request);
 
     public Boolean deleteProduct(Long productId);
 }

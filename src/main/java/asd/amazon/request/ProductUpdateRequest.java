@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class ProductUpdateRequest {
+    private Long productID;
     private String productName;
     private String productDescription;
     private Float productPrice;
