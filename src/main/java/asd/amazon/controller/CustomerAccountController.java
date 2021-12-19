@@ -1,13 +1,10 @@
 package asd.amazon.controller;
 
-import asd.amazon.Security.JwtConfiguration;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.service.CustomerAccountService;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +21,6 @@ public class CustomerAccountController {
     public static final String DELETE = "/delete";
     public static final String GETACCOUNT = "/get-account";
     public static final String UPDATE = "/update";
-
-    @Autowired
-    private JwtConfiguration jwtConfiguration;
 
     @Autowired
     private CustomerAccountService customerAccountService;

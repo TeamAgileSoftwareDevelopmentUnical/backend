@@ -1,6 +1,10 @@
 package asd.amazon.dto;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 @Data
 public class AccountDTO {
