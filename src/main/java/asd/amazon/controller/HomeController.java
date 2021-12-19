@@ -1,7 +1,10 @@
 package asd.amazon.controller;
 
+import asd.amazon.dto.AccountDTO;
+import asd.amazon.entity.Account;
 import asd.amazon.request.JwtRequest;
 import asd.amazon.responses.JwtResponse;
+import asd.amazon.service.CustomerAccountService;
 import asd.amazon.service.UserService;
 import asd.amazon.utils.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class HomeController {
+
+    @Autowired
+    private CustomerAccountService customerAccountService;
 
     @Autowired
     private JWTUtility jwtUtility;
@@ -32,7 +38,22 @@ public class HomeController {
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
 
-        try {
+        System.out.println(jwtRequest.getUsername());
+        System.out.println(jwtRequest.getPassword());
+        AccountDTO a = customerAccountService.authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
+        if(a != null){
+            final UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getUsername());
+
+            final String token =
+                    jwtUtility.generateToken(userDetails);
+
+            return  new JwtResponse(token);
+        } else {
+            System.out.println("Account non esistente!");
+        }
+        return null;
+
+        /*try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             jwtRequest.getUsername(),
@@ -49,6 +70,6 @@ public class HomeController {
         final String token =
                 jwtUtility.generateToken(userDetails);
 
-        return  new JwtResponse(token);
+        return  new JwtResponse(token); */
     }
 }
