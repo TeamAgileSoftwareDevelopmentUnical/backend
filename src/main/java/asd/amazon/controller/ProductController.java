@@ -43,7 +43,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.updateProduct(request));
     }
 
-    @DeleteMapping(CommonConstant.PRODUCT_DELETE)
+    @GetMapping(CommonConstant.PRODUCT_DELETE)
     public ResponseEntity<Boolean> deleteProduct(@RequestParam(name = "id") Long id){
         return ResponseEntity.ok().body(productService.deleteProduct(id));
     }

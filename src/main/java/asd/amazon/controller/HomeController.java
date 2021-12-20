@@ -65,7 +65,7 @@ public class HomeController {
             final String token =
                     jwtUtility.generateToken(userDetails);
 
-            return  new JwtResponse(token);
+            return  new JwtResponse(token, a.getId());
         } else {
             System.out.println("Account non esistente!");
         }

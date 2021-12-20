@@ -33,6 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         auth.userDetailsService(userService);
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        UrlBasedCorsConfigurationSource conf = new UrlBasedCorsConfigurationSource();
+        conf.registerCorsConfiguration("/**",new CorsConfiguration().applyPermitDefaultValues());
+        return conf;
+    }
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -41,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
+        http.cors().and().csrf()
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate", "/create-customer", "/create-seller")
