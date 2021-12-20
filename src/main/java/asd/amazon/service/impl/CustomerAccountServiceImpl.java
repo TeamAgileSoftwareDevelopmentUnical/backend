@@ -4,6 +4,7 @@ import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
+import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.service.CustomerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.Validate;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,9 +22,16 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Autowired
     private CustomerAccountRepository customerAccountRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Override
     @Transactional(readOnly = false)
-    public CustomerAccountDTO create(CustomerAccountDTO accountDTO){
+    public Boolean create(CustomerAccountDTO accountDTO){
+
+        accountDTO.setActive(true);
+        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
+        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
 
         Validate.notNull(accountDTO);
         Validate.notNull(accountDTO.getUsername());
@@ -30,18 +39,20 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         Validate.notNull(accountDTO.getName());
         Validate.notNull(accountDTO.getSurname());
         Validate.notNull(accountDTO.getEmail());
-        Validate.notNull(accountDTO.getPurchase());
 
-        Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
-        Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
-        Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
-        Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
-        Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
+        //Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
+        //Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        //Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
+        //Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
+        //Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
 
+        System.out.println("acc = " + accountDTO);
         CustomerAccount account = mapAccount(accountDTO);
+        System.out.println("acc = " + accountDTO);
         //TODO: check all the fields
         customerAccountRepository.save(account);
-        return mapAccount(account);
+        System.out.println("acc = " + account);
+        return true;
     }
 
     @Override
@@ -114,6 +125,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         c.setName(dto.getName());
         c.setSurname(dto.getSurname());
         c.setEmail(dto.getEmail());
+        c.setActive(dto.getActive());
 
         return c;
     }
@@ -127,6 +139,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         dto.setName(account.getName());
         dto.setSurname(account.getSurname());
         dto.setEmail(account.getEmail());
+        dto.setActive(account.getActive());
 
         return dto;
     }

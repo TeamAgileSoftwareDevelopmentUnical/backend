@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -33,4 +37,7 @@ public class Account implements Serializable {
 
     @Column(name = "ACTIVE", nullable = true)
     private Boolean active;
+
+
+
 }

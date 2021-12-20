@@ -25,10 +25,10 @@ public class CustomerAccountController {
     @Autowired
     private CustomerAccountService customerAccountService;
 
-    @PostMapping(CREATE)
+/*    @PostMapping(CREATE)
     public ResponseEntity<CustomerAccountDTO> create(@RequestBody CustomerAccountDTO accountDTO) {
         return ResponseEntity.ok(customerAccountService.create(accountDTO));
-    }
+    }*/
 
     @PostMapping(LOGIN)
     public ResponseEntity<CustomerAccountDTO> login(@RequestParam("username") String username,

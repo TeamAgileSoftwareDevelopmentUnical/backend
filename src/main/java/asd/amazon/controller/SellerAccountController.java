@@ -19,10 +19,10 @@ public class SellerAccountController {
     @Autowired
     private SellerAccountService sellerAccountService;
 
-    @PostMapping(CREATE)
+    /*@PostMapping(CREATE)
     public ResponseEntity<SellerAccountDTO> create(@RequestBody SellerAccountDTO sellerAccountDTO){
         return ResponseEntity.ok(sellerAccountService.create(sellerAccountDTO));
-    }
+    }*/
     @PostMapping(LOGIN)
     public ResponseEntity<CustomerAccountDTO> login(@RequestParam("username") String username,
                                                     @RequestParam("password") String password) {

@@ -1,9 +1,12 @@
 package asd.amazon.service.impl;
 
 import asd.amazon.dto.SellerAccountDTO;
+import asd.amazon.entity.CustomerAccount;
 import asd.amazon.entity.SellerAccount;
+import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.service.SellerAccountService;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +17,36 @@ public class SellerAccountServiceImpl implements SellerAccountService {
     @Autowired
     private SellerAccountRepository sellerAccountRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Override
     @Transactional(readOnly = false)
-    public SellerAccountDTO create(SellerAccountDTO sellerAccountDTO) {
+    public Boolean create(SellerAccountDTO accountDTO) {
         //TO DO: check
+        accountDTO.setActive(true);
+        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
+        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
 
-        return mapSellerAccountToDTO(sellerAccountRepository.save(mapSellerAccountToEntity(sellerAccountDTO)));
+        Validate.notNull(accountDTO);
+        Validate.notNull(accountDTO.getUsername());
+        Validate.notNull(accountDTO.getPassword());
+        Validate.notNull(accountDTO.getName());
+        Validate.notNull(accountDTO.getSurname());
+        Validate.notNull(accountDTO.getEmail());
+
+        Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
+        Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
+        Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
+        Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
+
+
+        SellerAccount account = mapSellerAccountToEntity(accountDTO);
+        //TODO: check all the fields
+        sellerAccountRepository.save(account);
+        return true;
+
     }
 
     @Override
@@ -37,6 +64,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         sellerAccount.setName(sellerAccountDTO.getName());
         sellerAccount.setSurname(sellerAccountDTO.getSurname());
         sellerAccount.setEmail(sellerAccountDTO.getEmail());
+        sellerAccount.setActive(sellerAccountDTO.getActive());
 
         return sellerAccount;
     }
@@ -49,6 +77,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         dto.setName(account.getName());
         dto.setSurname(account.getUsername());
         dto.setEmail(account.getEmail());
+        dto.setActive(account.getActive());
 
         return dto;
     }
