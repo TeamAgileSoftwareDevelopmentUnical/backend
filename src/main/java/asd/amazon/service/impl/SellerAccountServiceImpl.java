@@ -35,12 +35,13 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         Validate.notNull(accountDTO.getSurname());
         Validate.notNull(accountDTO.getEmail());
 
+        /*
         Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
         Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
         Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
         Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
         Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
-
+*/
 
         SellerAccount account = mapSellerAccountToEntity(accountDTO);
         //TODO: check all the fields
