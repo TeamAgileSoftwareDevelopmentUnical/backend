@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(CustomerAccountController.ROOT)
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
 public class CustomerAccountController {
 
     public static final String ROOT = "/customer-account";
