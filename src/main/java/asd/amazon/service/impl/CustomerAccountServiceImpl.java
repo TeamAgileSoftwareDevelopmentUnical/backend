@@ -88,33 +88,33 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     }
 
     @Override
-    public CustomerAccountDTO getCustomerAccountById(Long id) {
-        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
-        if(customerAccount.isPresent())
-            return mapAccount(customerAccount.get());
-        else    //TODO: throw an exception
-            return null;
+    public AccountDTO getCustomerAccountById(Long id) throws Exception {
+        Account account = accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
+        AccountDTO dto = new CustomerAccountDTO();
+        dto.setId(account.getId());
+        dto.setUsername(account.getUsername());
+        dto.setPassword(account.getPassword());
+        dto.setName(account.getName());
+        dto.setSurname(account.getSurname());
+        dto.setEmail(account.getEmail());
+        dto.setActive(account.getActive());
+        return dto;
     }
 
     @Override
     @Transactional
-    public void delete(CustomerAccountDTO accountDTO)   {
-        customerAccountRepository.deactivateUser(mapAccount(accountDTO).getUsername());
+    public void delete(final Long id) throws Exception {
+        accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
+        accountRepository.deleteById(id);
     }
 
     @Override
-    public CustomerAccountDTO update(Long id, String name, String surname, String mail) {
-        Optional<CustomerAccount> customerAccount = customerAccountRepository.findById(id);
-        if(customerAccount.isPresent())
-        {
-            customerAccount.get().setName(name);
-            customerAccount.get().setSurname(surname);
-            customerAccount.get().setEmail(mail);
-            //TODO: repository.SAVE?
-            return mapAccount(customerAccount.get());
-        }
-        else    //TODO: THROW AN EXCEPTION
-            return null;
+    public void update(AccountDTO accountDTO) throws Exception {
+        Account a = accountRepository.findById(accountDTO.getId()).orElseThrow(() -> new Exception("Account not found."));
+            a.setName(accountDTO.getName());
+            a.setSurname(accountDTO.getSurname());
+            a.setEmail(accountDTO.getEmail());
+            accountRepository.save(a);
     }
 
     //TODO: purchaseList maybe not mapped

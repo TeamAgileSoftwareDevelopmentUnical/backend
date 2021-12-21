@@ -9,11 +9,11 @@ public interface CustomerAccountService {
 
     public CustomerAccountDTO login(final String username, final String password);
 
-    public void delete(CustomerAccountDTO accountDTO);
+    public void delete(final Long id) throws Exception;
 
-    public CustomerAccountDTO getCustomerAccountById(Long id);
+    public AccountDTO getCustomerAccountById(Long id) throws Exception;
 
-    public CustomerAccountDTO update(Long id, final String name, final String surname, final String mail);
+    public void update(AccountDTO accountDTO) throws Exception;
   
     public AccountDTO authenticate(final String username, final String password);
 
