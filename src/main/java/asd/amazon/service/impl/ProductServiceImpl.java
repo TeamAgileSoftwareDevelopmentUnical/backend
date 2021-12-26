@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BatchRepository batchRepository;
 
+    @Transactional
     @Override
     public List<ProductResponse> getProductBy(Long sellerID) {
         List<ProductResponse> responses = new ArrayList<>();
@@ -60,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
         product.setType(productDTO.getType());
         product.setName(productDTO.getName());
         product.setBatch(newBatch);
+        product.setPhoto(productDTO.getPhoto().getBytes(StandardCharsets.UTF_8));
         product.setSellerAccounts(sellerAccountRepository.getById(productDTO.getSellerID()));
         productRepository.save(product);
 
@@ -125,6 +129,7 @@ public class ProductServiceImpl implements ProductService {
         response.setProductName(product.getName());
         response.setProductDesc(product.getDescription());
         response.setType(product.getType());
+        response.setPhoto(new String(product.getPhoto()));
         response.setBatch(setBatch(product.getBatch()));
         response.setSeller(setSellerInfo(product.getSellerAccounts()));
         return response;

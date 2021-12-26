@@ -37,6 +37,10 @@ public class Product implements Serializable {
     @Column(name = "TYPE", nullable = true)
     private Type type;
 
+    @Lob
+    @Column(name = "PHOTO", nullable = true)
+    private byte[] photo;
+
     @OneToOne(mappedBy = "product")
     private Purchase purchase;
 

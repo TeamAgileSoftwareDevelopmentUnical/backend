@@ -18,6 +18,8 @@ public class ProductResponse {
 
     private Type type;
 
+    private String photo;
+
     private BatchResponse batch;
 
     private SellerResponse seller;

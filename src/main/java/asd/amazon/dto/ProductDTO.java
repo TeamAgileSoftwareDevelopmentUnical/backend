@@ -22,4 +22,6 @@ public class ProductDTO {
     private Float availableQuantity;
 
     private Type type;
+
+    private String photo;
 }
