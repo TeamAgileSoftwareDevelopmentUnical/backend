@@ -4,6 +4,9 @@ import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.dto.SellerAccountDTO;
 import asd.amazon.entity.Account;
+import asd.amazon.entity.SellerAccount;
+import asd.amazon.repository.CustomerAccountRepository;
+import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.request.JwtRequest;
 import asd.amazon.responses.JwtResponse;
 import asd.amazon.service.CustomerAccountService;
@@ -37,6 +40,12 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    CustomerAccountRepository customerAccountRepository;
+
+    @Autowired
+    SellerAccountRepository sellerAccountRepository;
+
     @GetMapping("/")
     public String home() {
         return "Welcome to Daily Code Buffer!!";
@@ -64,8 +73,13 @@ public class HomeController {
 
             final String token =
                     jwtUtility.generateToken(userDetails);
-
-            return  new JwtResponse(token, a.getId());
+            // check the user is customer
+            SellerAccount account = sellerAccountRepository.findSellerAccountById(a.getId());
+            if (account != null) {
+                return new JwtResponse(token, account.getId(), "S");
+            }else {
+                return new JwtResponse(token, a.getId(), "C");
+            }
         } else {
             System.out.println("Account non esistente!");
         }

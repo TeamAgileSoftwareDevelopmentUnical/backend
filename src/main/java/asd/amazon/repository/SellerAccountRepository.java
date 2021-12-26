@@ -18,4 +18,6 @@ public interface SellerAccountRepository  extends JpaRepository<SellerAccount, L
 
     @Query("UPDATE Account a SET a.active = true WHERE :username=a.username")
     void activateUser(@Param(value = "username") String username);
+
+    SellerAccount findSellerAccountById(Long id);
 }
