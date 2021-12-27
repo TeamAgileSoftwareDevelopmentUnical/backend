@@ -9,6 +9,7 @@ import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.request.JwtRequest;
 import asd.amazon.responses.JwtResponse;
+import asd.amazon.service.AccountService;
 import asd.amazon.service.CustomerAccountService;
 import asd.amazon.service.SellerAccountService;
 import asd.amazon.service.UserService;
@@ -46,6 +47,9 @@ public class HomeController {
     @Autowired
     SellerAccountRepository sellerAccountRepository;
 
+    @Autowired
+    AccountService accountService;
+
     @GetMapping("/")
     public String home() {
         return "Welcome to Daily Code Buffer!!";
@@ -59,6 +63,11 @@ public class HomeController {
     @PostMapping("/create-seller")
     public ResponseEntity<Boolean> create(@RequestBody SellerAccountDTO accountDTO) {
         return ResponseEntity.ok(sellerAccountService.create(accountDTO));
+    }
+
+    @GetMapping(value = "/remove-account")
+    public ResponseEntity<Boolean> accountDeactivated(@RequestParam(name = "user_id")Long id){
+        return ResponseEntity.ok().body(accountService.accountDeactivate(id));
     }
 
 

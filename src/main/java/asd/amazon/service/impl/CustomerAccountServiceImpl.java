@@ -74,7 +74,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         System.out.println("service");
         System.out.println("acc= " + customerAccountRepository.findByUsernameAndPassword(username, password));
         Account account = customerAccountRepository.findByUsernameAndPassword(username, password);
-        if(account == null){
+        if(account == null || !account.getActive()){
             //TODO: EXCEPTION USERNAME NOT FOUND
             return null;
         }
