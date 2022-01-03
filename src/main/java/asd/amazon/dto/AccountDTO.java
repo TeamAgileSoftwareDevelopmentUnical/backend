@@ -22,6 +22,8 @@ public class AccountDTO {
     private String email;
 
     private Boolean active;
-
+    
     private String address;
+
+    private String role;
 }

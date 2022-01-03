@@ -31,6 +31,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     public Boolean create(CustomerAccountDTO accountDTO){
 
         accountDTO.setActive(true);
+        accountDTO.setRole("CUSTOMER");
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
         if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
 
@@ -50,6 +51,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         System.out.println("acc = " + accountDTO);
         CustomerAccount account = mapAccount(accountDTO);
         System.out.println("acc = " + accountDTO);
+
         //TODO: check all the fields
         customerAccountRepository.save(account);
         System.out.println("acc = " + account);
@@ -72,8 +74,8 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
 
     @Override
     public AccountDTO authenticate(String username, String password) {
-        System.out.println("service");
-        System.out.println("acc= " + customerAccountRepository.findByUsernameAndPassword(username, password));
+        //System.out.println("service");
+        //System.out.println("acc= " + customerAccountRepository.findByUsernameAndPassword(username, password));
         Account account = customerAccountRepository.findByUsernameAndPassword(username, password);
         if(account == null || !account.getActive()){
             //TODO: EXCEPTION USERNAME NOT FOUND
@@ -150,6 +152,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         c.setSurname(dto.getSurname());
         c.setEmail(dto.getEmail());
         c.setActive(dto.getActive());
+        c.setRole(dto.getRole());
 
         return c;
     }
@@ -164,7 +167,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         dto.setSurname(account.getSurname());
         dto.setEmail(account.getEmail());
         dto.setActive(account.getActive());
-
+        dto.setRole(account.getRole());
         return dto;
     }
 }
