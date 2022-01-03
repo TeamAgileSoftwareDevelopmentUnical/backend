@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerAccountRepository extends JpaRepository<CustomerAccount, Long>, JpaSpecificationExecutor<CustomerAccount> {
 
+    CustomerAccount findCustomerAccountsById(Long id);
+
     CustomerAccount findByUsername(@Param(value = "username") String username);
 
     @Query("SELECT a FROM Account a WHERE :username=a.username AND :password=a.password")

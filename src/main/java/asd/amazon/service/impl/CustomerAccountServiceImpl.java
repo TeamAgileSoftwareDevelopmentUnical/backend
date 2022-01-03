@@ -6,6 +6,7 @@ import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
 import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.CustomerAccountRepository;
+import asd.amazon.request.CustomerAddressRequest;
 import asd.amazon.service.CustomerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -88,6 +89,23 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     }
 
     @Override
+    public boolean setShippingAddress(CustomerAddressRequest request) {
+        CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(request.getCustomerId());
+        if (customerAccount == null){
+            return false;
+        }
+        String address = String.format("%s,%s,%d,%s,%s,%s",request.getStreetAndNumber(),
+                request.getAddressLine2(),
+                request.getPostalCode(),
+                request.getProvince(),
+                request.getCity(),
+                request.getCountry());
+        customerAccount.setShippingAddress(address);
+        customerAccountRepository.save(customerAccount);
+        return true;
+    }
+
+    @Override
     public AccountDTO getCustomerAccountById(Long id) throws Exception {
         Account account = accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
         AccountDTO dto = new CustomerAccountDTO();
@@ -98,6 +116,8 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         dto.setSurname(account.getSurname());
         dto.setEmail(account.getEmail());
         dto.setActive(account.getActive());
+        CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(account.getId());
+        dto.setAddress(customerAccount.getShippingAddress());
         return dto;
     }
 
@@ -111,10 +131,14 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Override
     public void update(AccountDTO accountDTO) throws Exception {
         Account a = accountRepository.findById(accountDTO.getId()).orElseThrow(() -> new Exception("Account not found."));
-            a.setName(accountDTO.getName());
-            a.setSurname(accountDTO.getSurname());
-            a.setEmail(accountDTO.getEmail());
-            accountRepository.save(a);
+        a.setName(accountDTO.getName());
+        a.setSurname(accountDTO.getSurname());
+        a.setEmail(accountDTO.getEmail());
+        accountRepository.save(a);
+        CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(accountDTO.getId());
+        customerAccount.setShippingAddress(accountDTO.getAddress());
+        customerAccountRepository.save(customerAccount);
+
     }
 
     //TODO: purchaseList maybe not mapped

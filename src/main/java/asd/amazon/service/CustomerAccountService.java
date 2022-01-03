@@ -2,6 +2,7 @@ package asd.amazon.service;
 
 import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
+import asd.amazon.request.CustomerAddressRequest;
 
 public interface CustomerAccountService {
 
@@ -16,5 +17,7 @@ public interface CustomerAccountService {
     public void update(AccountDTO accountDTO) throws Exception;
   
     public AccountDTO authenticate(final String username, final String password);
+
+    boolean setShippingAddress(CustomerAddressRequest request);
 
 }

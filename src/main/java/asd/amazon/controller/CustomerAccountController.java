@@ -2,15 +2,14 @@ package asd.amazon.controller;
 
 import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
+import asd.amazon.request.CustomerAddressRequest;
 import asd.amazon.service.CustomerAccountService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @RestController
 @RequestMapping(CustomerAccountController.ROOT)
@@ -54,5 +53,10 @@ public class CustomerAccountController {
     @GetMapping(GETACCOUNT+ "{id}")
     public ResponseEntity<AccountDTO> getCustomerAccount(@PathVariable(name = "id", required = true) final Long id) throws Exception {
         return ResponseEntity.ok(customerAccountService.getCustomerAccountById(id));
+    }
+
+    @PostMapping(value = "/set-shipping-address")
+    public ResponseEntity<Boolean> addShippingAddress(@RequestBody CustomerAddressRequest request){
+        return ResponseEntity.ok().body(customerAccountService.setShippingAddress(request));
     }
 }
