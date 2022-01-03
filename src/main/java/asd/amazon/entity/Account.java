@@ -38,6 +38,8 @@ public class Account implements Serializable {
     @Column(name = "ACTIVE", nullable = true)
     private Boolean active;
 
+    @Column(name = "ROLE")
+    private String role;//TODO: it has to be a list(?)
 
 
 }

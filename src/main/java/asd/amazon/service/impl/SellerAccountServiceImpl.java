@@ -25,6 +25,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
     public Boolean create(SellerAccountDTO accountDTO) {
         //TO DO: check
         accountDTO.setActive(true);
+        accountDTO.setRole("SELLER");
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
         if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
 
@@ -64,6 +65,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         sellerAccount.setSurname(sellerAccountDTO.getSurname());
         sellerAccount.setEmail(sellerAccountDTO.getEmail());
         sellerAccount.setActive(sellerAccountDTO.getActive());
+        sellerAccount.setRole(sellerAccountDTO.getRole());
 
         return sellerAccount;
     }
@@ -77,6 +79,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         dto.setSurname(account.getUsername());
         dto.setEmail(account.getEmail());
         dto.setActive(account.getActive());
+        dto.setRole(account.getRole());
 
         return dto;
     }
