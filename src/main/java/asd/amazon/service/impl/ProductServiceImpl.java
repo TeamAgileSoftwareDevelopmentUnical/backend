@@ -63,7 +63,9 @@ public class ProductServiceImpl implements ProductService {
         product.setType(productDTO.getType());
         product.setName(productDTO.getName());
         product.setBatch(newBatch);
-        product.setPhoto(productDTO.getPhoto().getBytes(StandardCharsets.UTF_8));
+        if(productDTO.getPhoto()!=null){
+            product.setPhoto(productDTO.getPhoto().getBytes(StandardCharsets.UTF_8));
+        }
         product.setSellerAccounts(sellerAccountRepository.getById(productDTO.getSellerID()));
         productRepository.save(product);
 
@@ -129,7 +131,9 @@ public class ProductServiceImpl implements ProductService {
         response.setProductName(product.getName());
         response.setProductDesc(product.getDescription());
         response.setType(product.getType());
-        response.setPhoto(new String(product.getPhoto()));
+        if(product.getPhoto() != null){
+            response.setPhoto(new String(product.getPhoto()));
+        }
         response.setBatch(setBatch(product.getBatch()));
         response.setSeller(setSellerInfo(product.getSellerAccounts()));
         return response;

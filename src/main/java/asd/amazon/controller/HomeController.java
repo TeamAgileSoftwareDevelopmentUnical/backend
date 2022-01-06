@@ -50,11 +50,6 @@ public class HomeController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to Daily Code Buffer!!";
-    }
-
     @PostMapping("/create-customer")
     public ResponseEntity<Boolean> create(@RequestBody CustomerAccountDTO accountDTO) {
         return ResponseEntity.ok(customerAccountService.create(accountDTO));

@@ -119,7 +119,8 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         dto.setEmail(account.getEmail());
         dto.setActive(account.getActive());
         CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(account.getId());
-        dto.setAddress(customerAccount.getShippingAddress());
+        if(customerAccount != null)
+            dto.setAddress(customerAccount.getShippingAddress());
         return dto;
     }
 
