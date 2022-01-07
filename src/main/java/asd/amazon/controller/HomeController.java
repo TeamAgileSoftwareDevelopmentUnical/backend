@@ -50,11 +50,6 @@ public class HomeController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to Daily Code Buffer!!";
-    }
-
     @PostMapping("/create-customer")
     public ResponseEntity<Boolean> create(@RequestBody CustomerAccountDTO accountDTO) {
         return ResponseEntity.ok(customerAccountService.create(accountDTO));
@@ -85,9 +80,9 @@ public class HomeController {
             // check the user is customer
             SellerAccount account = sellerAccountRepository.findSellerAccountById(a.getId());
             if (account != null) {
-                return new JwtResponse(token, account.getId(), "S");
+                return new JwtResponse(token, account.getId(), "Seller");
             }else {
-                return new JwtResponse(token, a.getId(), "C");
+                return new JwtResponse(token, a.getId(), "Customer");
             }
         } else {
             System.out.println("Account non esistente!");
