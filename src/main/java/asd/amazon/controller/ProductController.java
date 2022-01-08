@@ -29,6 +29,11 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getProductBy(seller_id));
     }
 
+    @GetMapping(CommonConstant.GET_STAND_PRODUCTS)
+    public ResponseEntity<List<ProductResponse>> getProductsByCategory(@RequestParam(value = "category")String category){
+        return ResponseEntity.ok().body(productService.getProductsByCategory(category));
+    }
+
     @PostMapping(CommonConstant.PRODUCT_UPLOAD)
     public ResponseEntity<Boolean> uploadNewProduct(@RequestBody ProductDTO product){
         return ResponseEntity.ok().body(productService.uploadNewProduct(product));

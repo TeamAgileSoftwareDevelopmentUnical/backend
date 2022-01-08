@@ -7,6 +7,7 @@ import asd.amazon.entity.Batch;
 import asd.amazon.entity.Product;
 import asd.amazon.entity.Purchase;
 import asd.amazon.entity.SellerAccount;
+import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
@@ -42,6 +43,18 @@ public class ProductServiceImpl implements ProductService {
         seller.getProduct().forEach(product -> {
             responses.add(mapProduct(product));
         });
+        return responses;
+    }
+
+    @Transactional
+    @Override
+    public List<ProductResponse> getProductsByCategory(String category) {
+        List<ProductResponse> responses = new ArrayList<>();
+        System.out.println("in backend"+category);
+        productRepository.findAllByType(Type.valueOf(category)).forEach(product -> {
+            responses.add(mapProduct(product));
+        });
+        System.out.println(responses);
         return responses;
     }
 
