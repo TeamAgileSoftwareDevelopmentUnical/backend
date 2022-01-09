@@ -85,12 +85,14 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
+    @Transactional
     @Override
     public ProductResponse getProductFromBatch(Long productID) {
         Product product = productRepository.getById(productID);
         return product.getId()>0?mapProduct(product):null;
     }
 
+    @Transactional
     @Override
     public Boolean updateProduct(ProductUpdateRequest request) {
         Product product = productRepository.getById(request.getProductID());
@@ -111,6 +113,7 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
+    @Transactional
     @Override
     public Boolean deleteProduct(Long productId) {
         Product product = productRepository.getById(productId);
