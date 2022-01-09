@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
+import java.util.concurrent.atomic.AtomicReference;
 
 @CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
 @RestController
@@ -48,6 +48,7 @@ public class PaymentController {
 
     @PostMapping(CommonConstant.PAYMENT_SUCCESS)
     public ResponseEntity<PaymentConfirmResponse> successPayment(@RequestBody PayPalConfirmPaymentRequest request){
+        final double[] amount = new double[1];
         PaymentConfirmResponse response = null;
         try {
             Payment payment = paymentService.executePayment(request.getPaymentId(), request.getPayerId());
@@ -55,6 +56,16 @@ public class PaymentController {
             if (payment.getState().equals("approved")){
                 response = new PaymentConfirmResponse();
                 response.setStatus(payment.getState());
+                response.setPaymentID(payment.getId());
+
+                //PaymentConfirmResponse finalResponse = response;
+                payment.getTransactions().forEach(transaction -> {
+                    if (!transaction.getAmount().getTotal().isEmpty()){
+                        amount[0] = (Double.parseDouble(transaction.getAmount().getTotal()));
+                    }
+
+                });
+                response.setAmount(amount[0]);
                 return ResponseEntity.ok().body(response);
             }
         }catch (Exception ex){

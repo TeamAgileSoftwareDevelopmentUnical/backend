@@ -1,19 +1,14 @@
 package asd.amazon.controller;
 
 import asd.amazon.dto.ProductDTO;
-import asd.amazon.entity.Batch;
-import asd.amazon.entity.Product;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.responses.ProductResponse;
-import asd.amazon.service.BatchService;
 import asd.amazon.service.ProductService;
 import asd.amazon.utils.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})

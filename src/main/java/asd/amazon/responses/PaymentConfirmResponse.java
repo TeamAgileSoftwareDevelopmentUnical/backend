@@ -11,4 +11,6 @@ import lombok.Setter;
 @Setter
 public class PaymentConfirmResponse {
     private String status;
+    private double amount;
+    private String paymentID;
 }
