@@ -10,10 +10,13 @@ import asd.amazon.request.CustomerAddressRequest;
 import asd.amazon.service.CustomerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.Validate;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +31,16 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
 
     @Override
     @Transactional(readOnly = false)
-    public Boolean create(CustomerAccountDTO accountDTO){
+    public ResponseEntity create(CustomerAccountDTO accountDTO){
 
         accountDTO.setActive(true);
         accountDTO.setRole("CUSTOMER");
-        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
-        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
+        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
+            return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
+        }
+        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){
+            return new ResponseEntity<>("Username",HttpStatus.FORBIDDEN);
+        }
 
         Validate.notNull(accountDTO);
         Validate.notNull(accountDTO.getUsername());
@@ -55,7 +62,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         //TODO: check all the fields
         customerAccountRepository.save(account);
         System.out.println("acc = " + account);
-        return true;
+        return new ResponseEntity<>("created",HttpStatus.OK);
     }
 
     @Override

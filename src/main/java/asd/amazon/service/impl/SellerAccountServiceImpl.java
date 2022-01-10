@@ -8,8 +8,12 @@ import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.service.SellerAccountService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.NonUniqueResultException;
 
 @Service
 public class SellerAccountServiceImpl implements SellerAccountService {
@@ -22,12 +26,16 @@ public class SellerAccountServiceImpl implements SellerAccountService {
 
     @Override
     @Transactional(readOnly = false)
-    public Boolean create(SellerAccountDTO accountDTO) {
+    public ResponseEntity create(SellerAccountDTO accountDTO) {
         //TO DO: check
         accountDTO.setActive(true);
         accountDTO.setRole("SELLER");
-        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){return false;}
-        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){return false;}
+        if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
+            return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
+        }
+        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){
+            return new ResponseEntity<>("Username",HttpStatus.FORBIDDEN);
+        }
 
         Validate.notNull(accountDTO);
         Validate.notNull(accountDTO.getUsername());
@@ -45,8 +53,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         SellerAccount account = mapSellerAccountToEntity(accountDTO);
         //TODO: check all the fields
         sellerAccountRepository.save(account);
-        return true;
-
+        return new ResponseEntity<>("created",HttpStatus.OK);
     }
 
     @Override
