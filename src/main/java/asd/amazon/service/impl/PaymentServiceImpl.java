@@ -22,10 +22,13 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment createPayment(PaymentRequest request) {
         try {
             Amount amount = new Amount();
+            // System.out.println(request.getPrice());
+            // System.out.println(request.getCurrency());
             amount.setCurrency(request.getCurrency());
             amount.setTotal(String.format("%.2f",BigDecimal.valueOf(request.getPrice())
                     .setScale(2, RoundingMode.HALF_UP)
-                    .doubleValue()));
+                    .doubleValue()).replace(",", "."));
+            // System.out.println("Builded amount:\n"+amount);
 
             Transaction transaction = new Transaction();
             transaction.setDescription(request.getDescription());
