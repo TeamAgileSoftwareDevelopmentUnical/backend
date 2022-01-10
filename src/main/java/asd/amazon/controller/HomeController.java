@@ -3,7 +3,6 @@ package asd.amazon.controller;
 import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.dto.SellerAccountDTO;
-import asd.amazon.entity.Account;
 import asd.amazon.entity.SellerAccount;
 import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.repository.SellerAccountRepository;
@@ -15,10 +14,9 @@ import asd.amazon.service.SellerAccountService;
 import asd.amazon.service.UserService;
 import asd.amazon.utils.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,13 +49,13 @@ public class HomeController {
     AccountService accountService;
 
     @PostMapping("/create-customer")
-    public ResponseEntity<Boolean> create(@RequestBody CustomerAccountDTO accountDTO) {
-        return ResponseEntity.ok(customerAccountService.create(accountDTO));
+    public ResponseEntity create(@RequestBody CustomerAccountDTO accountDTO) {
+        return customerAccountService.create(accountDTO);
     }
 
     @PostMapping("/create-seller")
-    public ResponseEntity<Boolean> create(@RequestBody SellerAccountDTO accountDTO) {
-        return ResponseEntity.ok(sellerAccountService.create(accountDTO));
+    public ResponseEntity create(@RequestBody SellerAccountDTO accountDTO) {
+        return sellerAccountService.create(accountDTO);
     }
 
     @GetMapping(value = "/remove-account")

@@ -3,10 +3,12 @@ package asd.amazon.service;
 import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.request.CustomerAddressRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public interface CustomerAccountService {
 
-    public Boolean create(CustomerAccountDTO accountDTO);
+    public ResponseEntity create(CustomerAccountDTO accountDTO);
 
     public CustomerAccountDTO login(final String username, final String password);
 
