@@ -50,11 +50,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getProductsByCategory(String category) {
         List<ProductResponse> responses = new ArrayList<>();
-        System.out.println("in backend"+category);
         productRepository.findAllByType(Type.valueOf(category)).forEach(product -> {
             responses.add(mapProduct(product));
         });
-        System.out.println(responses);
         return responses;
     }
 

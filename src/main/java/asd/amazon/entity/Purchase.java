@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -25,7 +26,7 @@ public class Purchase implements Serializable {
     private CustomerAccount customer;
 
     @Column(name = "DATE", nullable = false, columnDefinition = "TIMESTAMP")
-    private Date date;
+    private LocalDateTime date;
 
     @Column(name = "PRODUCT_QUANTITY", nullable = false)
     private Float productQuantity;

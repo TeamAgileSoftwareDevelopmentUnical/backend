@@ -15,7 +15,7 @@ public class PurchaseDTO {
 
     private LocalDateTime date;
 
-    private List<ProductDTO> soldProducts;
+    private ProductDTO soldProduct;
 
     private String shippingAddress;
 
