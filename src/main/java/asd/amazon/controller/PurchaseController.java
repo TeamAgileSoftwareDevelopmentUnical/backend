@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
 @RestController
-@RequestMapping(CommonConstant.PURCHASES)
+@RequestMapping(CommonConstant.PURCHASES_ROOT)
 public class PurchaseController {
 
     @Autowired
@@ -21,6 +21,7 @@ public class PurchaseController {
 
     @GetMapping(CommonConstant.PURCHASES)
     public ResponseEntity<List<PurchaseDTO>> getPurchases(@RequestParam(value = "customer_id")Long customer){
+        System.out.println("get mapping purchases");
         return ResponseEntity.ok().body(purchaseService.getPurchasesByCustomerId(customer));
     }
 }

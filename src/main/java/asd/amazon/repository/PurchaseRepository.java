@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long>, JpaSpecificationExecutor<Purchase> {
 
-    List<Purchase> findAllByCustomerOrderByDateDesc(Long customer);
+    List<Purchase> findAllByCustomerIdOrderByDateDesc(Long customer);
 }

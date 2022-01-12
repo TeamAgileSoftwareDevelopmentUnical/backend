@@ -28,8 +28,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseDTO> getPurchasesByCustomerId(Long customerID) {
         List<PurchaseDTO> responses = new ArrayList<>();
-        System.out.println("get purchases in backend"+customerID);
-        purchaseRepository.findAllByCustomerOrderByDateDesc(customerID).forEach(purchase -> {
+        System.out.println("get purchases in backend of the customer: "+customerID);
+        purchaseRepository.findAllByCustomerIdOrderByDateDesc(customerID).forEach(purchase -> {
             responses.add(mapPurchaseToPurchaseDTO(purchase));
         });
         System.out.println(responses);
