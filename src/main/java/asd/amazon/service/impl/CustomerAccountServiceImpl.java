@@ -94,6 +94,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         a.setId(account.getId());
         a.setUsername(account.getUsername());
         a.setPassword(account.getPassword());
+        a.setEmail(account.getEmail());
         return a;
     }
 

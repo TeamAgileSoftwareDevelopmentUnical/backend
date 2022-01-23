@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SellerAccountRepository  extends JpaRepository<SellerAccount, Long>, JpaSpecificationExecutor<SellerAccount> {
     @Query("SELECT a FROM Account a WHERE :username=a.username AND :password=a.password")
@@ -20,4 +22,6 @@ public interface SellerAccountRepository  extends JpaRepository<SellerAccount, L
     void activateUser(@Param(value = "username") String username);
 
     SellerAccount findSellerAccountById(Long id);
+
+    List<SellerAccount> findAll();
 }
