@@ -1,6 +1,9 @@
 package asd.amazon.service.impl;
 
+import asd.amazon.dto.AccountDTO;
+import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.dto.SellerAccountDTO;
+import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
 import asd.amazon.entity.SellerAccount;
 import asd.amazon.repository.AccountRepository;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NonUniqueResultException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SellerAccountServiceImpl implements SellerAccountService {
@@ -89,5 +94,30 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         dto.setRole(account.getRole());
 
         return dto;
+    }
+
+    @Override
+    public List<AccountDTO> getAllSellers() throws Exception {
+        List<SellerAccount> sellers  = sellerAccountRepository.findAll();
+
+        List<AccountDTO> sellersDTO = new ArrayList<AccountDTO>();
+
+        for(int i=0; i<sellers.size(); i++) {
+            if(sellers.get(i).getActive()) {
+                AccountDTO dto = new SellerAccountDTO();
+
+                dto.setId(sellers.get(i).getId());
+                dto.setUsername(sellers.get(i).getUsername());
+                dto.setPassword(sellers.get(i).getPassword());
+                dto.setName(sellers.get(i).getName());
+                dto.setSurname(sellers.get(i).getSurname());
+                dto.setEmail(sellers.get(i).getEmail());
+                dto.setActive(sellers.get(i).getActive());
+
+                sellersDTO.add(dto);
+            }
+        }
+
+        return sellersDTO;
     }
 }
