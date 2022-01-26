@@ -15,6 +15,8 @@ public class CommonConstant {
     public static final String PAYMENT_SUCCESS = "/success";
     public static final String PAYMENT_CANCEL = "/cancel";
     public static final String PAYMENT_PAY = "/pay";
+    public static final String PAYMENT_CREATE_STRIPE = "/stripe-checkout";
+
 
     // purchase URLS
     public static final String PURCHASES_ROOT = "/purchases";
