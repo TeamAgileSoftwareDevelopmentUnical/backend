@@ -21,6 +21,7 @@ If you want to check the db with PGAdmin, or whatever viewer, you need to create
 + username: postgres
 + password: root
 + port: 5432
+
 _To customize these credentials check the `application.properties` file._
 
 Now you are able to run the backend part through running the main method inside `AmazonApplication.java`.😎
