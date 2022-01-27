@@ -5,6 +5,7 @@ public class CommonConstant {
     public static final String PRODUCT_ROOT = "/product";
     public static final String PRODUCT_UPLOAD = "/upload";
     public static final String PRODUCT_UPDATE = "/update";
+    public static final String PRODUCT_UPDATE_AVAILABILITY = "/update-availability";
     public static final String PRODUCT_DELETE = "/delete";
     public static final String GET_ALL_PRODUCT = "/get-all";
     public static final String GET_STAND_PRODUCTS = "/get-stand-products";
@@ -22,6 +23,7 @@ public class CommonConstant {
 
     // purchase URLS
     public static final String PURCHASES_ROOT = "/purchases";
+    public static final String PURCHASES_CREATE = "/purchases-create";
     public static final String PURCHASES = "/get-purchases";
 
 }

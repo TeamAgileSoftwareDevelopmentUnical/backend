@@ -35,6 +35,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
 
         accountDTO.setActive(true);
         accountDTO.setRole("CUSTOMER");
+        System.out.println("acc prima = "+accountDTO);
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
@@ -62,7 +63,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         //TODO: check all the fields
         customerAccountRepository.save(account);
         System.out.println("acc = " + account);
-        return new ResponseEntity<>("created",HttpStatus.OK);
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @Override

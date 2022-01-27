@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PurchaseService {
     public List<PurchaseDTO> getPurchasesByCustomerId(Long customerID);
+    public Purchase createPurchase(PurchaseDTO purchaseDTO);
 }

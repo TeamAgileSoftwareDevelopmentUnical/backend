@@ -38,6 +38,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         return responses;
     }
 
+    @Override
+    public Purchase createPurchase(PurchaseDTO purchaseDTO) {
+        return mapPurchaseDTOToPurchase(purchaseDTO);
+    }
+
     private Float getProductPrice(Purchase purchase)
     {
         return batchRepository.findBatchByProduct(purchase.getProduct().getId()).getPrice();
