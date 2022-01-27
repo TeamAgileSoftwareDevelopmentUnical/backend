@@ -17,14 +17,6 @@ public class Purchase implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    /*@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_ID", referencedColumnName = "ID")
-    private Product product;*/
-
-    /*@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID")
-    private CustomerAccount customer;*/
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
     private Product product;
