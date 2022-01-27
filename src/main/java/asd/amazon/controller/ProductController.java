@@ -1,6 +1,7 @@
 package asd.amazon.controller;
 
 import asd.amazon.dto.ProductDTO;
+import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.ProductResponse;
@@ -44,6 +45,11 @@ public class ProductController {
     @PostMapping(CommonConstant.PRODUCT_UPDATE)
     public ResponseEntity<Boolean> updateProduct(@RequestBody ProductUpdateRequest request){
         return ResponseEntity.ok().body(productService.updateProduct(request));
+    }
+
+    @PostMapping(CommonConstant.PRODUCT_UPDATE_AVAILABILITY)
+    public ResponseEntity<Boolean> updateAvailability(@RequestBody ProductUpdateAvailabilityRequest request){
+        return ResponseEntity.ok().body(productService.updateAvailability(request));
     }
 
     @GetMapping(CommonConstant.PRODUCT_DELETE)

@@ -4,6 +4,7 @@ import asd.amazon.dto.ProductDTO;
 import asd.amazon.entity.Batch;
 import asd.amazon.entity.Product;
 import asd.amazon.entity.enums.Type;
+import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.ProductResponse;
@@ -24,6 +25,8 @@ public interface ProductService {
     public ProductResponse getProductFromBatch(Long productId);
 
     public Boolean updateProduct(ProductUpdateRequest request);
+
+    public Boolean updateAvailability(ProductUpdateAvailabilityRequest request);
 
     public Boolean deleteProduct(Long productId);
 

@@ -11,6 +11,7 @@ import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
+import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.BatchResponse;
@@ -115,6 +116,27 @@ public class ProductServiceImpl implements ProductService {
             return true;
         }
 
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateAvailability(ProductUpdateAvailabilityRequest request) {
+        System.out.println("_________________entro qui_________________");
+
+        Product product = productRepository.getById(request.getProductId());
+        Float newAvailability = request.getAvailability();
+
+        System.out.println(product.getId());
+        System.out.println(product.getBatch().getId());
+
+        if (product != null){
+            Batch batch = product.getBatch();
+            batch.setAvailableQuantity(newAvailability);
+            batchRepository.save(batch);
+
+            return true;
+        }
         return false;
     }
 

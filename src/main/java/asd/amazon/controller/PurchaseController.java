@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
@@ -23,5 +24,9 @@ public class PurchaseController {
     public ResponseEntity<List<PurchaseDTO>> getPurchases(@RequestParam(value = "customer_id")Long customer){
         System.out.println("get mapping purchases");
         return ResponseEntity.ok().body(purchaseService.getPurchasesByCustomerId(customer));
+    }
+    @PostMapping(CommonConstant.PURCHASES_CREATE)
+    public ResponseEntity<Purchase> createPurchase(@RequestBody PurchaseDTO purchaseDTO)  {
+        return ResponseEntity.ok().body(purchaseService.createPurchase(purchaseDTO));
     }
 }

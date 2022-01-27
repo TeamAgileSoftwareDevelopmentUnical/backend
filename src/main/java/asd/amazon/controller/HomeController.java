@@ -78,9 +78,9 @@ public class HomeController {
             // check the user is customer
             SellerAccount account = sellerAccountRepository.findSellerAccountById(a.getId());
             if (account != null) {
-                return new JwtResponse(token, account.getId(), "Seller");
+                return new JwtResponse(token, account.getId(), "Seller", a.getEmail());
             }else {
-                return new JwtResponse(token, a.getId(), "Customer");
+                return new JwtResponse(token, a.getId(), "Customer", a.getEmail());
             }
         } else {
             System.out.println("Account non esistente!");

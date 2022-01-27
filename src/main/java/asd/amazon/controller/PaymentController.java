@@ -1,8 +1,10 @@
 package asd.amazon.controller;
 
 
+import asd.amazon.request.CreatePayment;
 import asd.amazon.request.PayPalConfirmPaymentRequest;
 import asd.amazon.request.PaymentRequest;
+import asd.amazon.responses.CreatePaymentResponse;
 import asd.amazon.responses.PaymentConfirmResponse;
 import asd.amazon.responses.PaypalPaymentResponse;
 import asd.amazon.service.PaymentService;
@@ -72,5 +74,10 @@ public class PaymentController {
             System.out.println(ex.getMessage());
         }
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(CommonConstant.PAYMENT_CREATE_STRIPE)
+    public ResponseEntity<CreatePaymentResponse> stripePaymentCreate(@RequestBody CreatePayment createPayment){
+        return ResponseEntity.ok().body(paymentService.stripePaymentCreate(createPayment));
     }
 }
