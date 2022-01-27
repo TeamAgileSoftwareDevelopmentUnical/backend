@@ -12,6 +12,7 @@ import asd.amazon.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     BatchRepository batchRepository;
 
+    @Transactional
     @Override
     public List<PurchaseDTO> getPurchasesByCustomerId(Long customerID) {
         List<PurchaseDTO> responses = new ArrayList<>();
@@ -53,7 +55,8 @@ public class PurchaseServiceImpl implements PurchaseService {
         response.setDate(purchase.getDate());
         response.setShippingAddress(purchase.getShippingAddress());
         response.setPaymentMethod(purchase.getPaymentMethod());
-        response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
+        //response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
+        response.setTotal(purchase.getProductQuantity()*purchase.getProduct().getBatch().getPrice());
         return response;
     }
 

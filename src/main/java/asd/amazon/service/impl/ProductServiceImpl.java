@@ -11,10 +11,12 @@ import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
+import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.BatchResponse;
+import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.SellerResponse;
 import asd.amazon.responses.ViewDetailsResponse;
@@ -165,6 +167,13 @@ public class ProductServiceImpl implements ProductService {
        return null;
     }
 
+
+    @Transactional
+    @Override
+    public Boolean productQuantityCheck(Long id) {
+        Product product = productRepository.getById(id);
+        return product.getBatch().getAvailableQuantity()>0;
+    }
 
     private SellerResponse setSellerInfo(SellerAccount seller) {
         SellerResponse sellerResponse = new SellerResponse();

@@ -41,8 +41,10 @@ public class Product implements Serializable {
     @Column(name = "PHOTO", nullable = true)
     private byte[] photo;
 
-    @OneToOne(mappedBy = "product")
-    private Purchase purchase;
+    /*@OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
+    private Purchase purchase;*/
+    @OneToMany(mappedBy = "product")
+    private List<Purchase> purchases;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BATCH_ID", referencedColumnName = "ID")

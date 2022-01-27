@@ -1,9 +1,11 @@
 package asd.amazon.controller;
 
 import asd.amazon.dto.ProductDTO;
+import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
+import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.ViewDetailsResponse;
 import asd.amazon.service.ProductService;
@@ -59,5 +61,10 @@ public class ProductController {
     @GetMapping(CommonConstant.PRODUCT_ViewDetails)
     public ResponseEntity<ViewDetailsResponse>viewDetailsResponseResponseEntity(@RequestParam(name = "product_id") Long product_id){
         return ResponseEntity.ok().body(productService.viewDetails(product_id));
+    }
+
+    @GetMapping(CommonConstant.PRODUCT_QUANTITY_CHECK)
+    public ResponseEntity<Boolean> checkProductQuantity(@RequestParam(name = "product_id") Long id){
+        return ResponseEntity.ok().body(productService.productQuantityCheck(id));
     }
 }

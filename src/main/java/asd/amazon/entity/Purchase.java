@@ -17,11 +17,11 @@ public class Purchase implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="PRODUCT_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
     private Product product;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID")
     private CustomerAccount customer;
 
@@ -29,7 +29,7 @@ public class Purchase implements Serializable {
     private LocalDateTime date;
 
     @Column(name = "PRODUCT_QUANTITY", nullable = false)
-    private Float productQuantity;
+    private Integer productQuantity;
 
     @Column(name = "SHIPPING_ADDRESS", nullable = false)
     private String shippingAddress;
