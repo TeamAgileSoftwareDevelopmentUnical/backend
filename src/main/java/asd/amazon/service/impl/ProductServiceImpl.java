@@ -112,10 +112,17 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
+    @Transactional
     @Override
     public Boolean updateAvailability(ProductUpdateAvailabilityRequest request) {
+        System.out.println("_________________entro qui_________________");
+
         Product product = productRepository.getById(request.getProductId());
         Float newAvailability = request.getAvailability();
+
+        System.out.println(product.getId());
+        System.out.println(product.getBatch().getId());
+
         if (product != null){
             Batch batch = product.getBatch();
             batch.setAvailableQuantity(newAvailability);

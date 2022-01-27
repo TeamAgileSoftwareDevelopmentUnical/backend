@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @PostMapping(CommonConstant.PRODUCT_UPDATE_AVAILABILITY)
-    public ResponseEntity<Boolean> updateProductAvailability(@RequestBody ProductUpdateAvailabilityRequest request){
+    public ResponseEntity<Boolean> updateAvailability(@RequestBody ProductUpdateAvailabilityRequest request){
         return ResponseEntity.ok().body(productService.updateAvailability(request));
     }
 
