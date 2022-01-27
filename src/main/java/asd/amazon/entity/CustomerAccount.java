@@ -1,17 +1,23 @@
 package asd.amazon.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Data
 @Entity
 @Table(name = "CUSTOMER")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CustomerAccount extends Account{
 
     @Column(name = "SHIPPING_ADDRESS", nullable = true)
     private String shippingAddress;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.REMOVE)
-    private Purchase purchase;
+    /*@OneToOne(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Purchase purchase;*/
+    @OneToMany(mappedBy = "customer")
+    private List<Purchase> purchases;
 }

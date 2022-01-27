@@ -9,6 +9,8 @@ public class CommonConstant {
     public static final String GET_ALL_PRODUCT = "/get-all";
     public static final String GET_STAND_PRODUCTS = "/get-stand-products";
     public static final String GET_PRODUCT = "/get-product";
+    public static final String PRODUCT_QUANTITY_CHECK = "/check-product-quantity";
+
 
     // payment URLS
     public static final String PAYMENT_ROOT = "/payment";

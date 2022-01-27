@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,4 +16,6 @@ public class CreatePayment {
     private Double amount;
     private String stripeToken;
     private String stripeEmail;
+    private Long customerId;
+    private ArrayList<ProductInfo> productIds;
 }

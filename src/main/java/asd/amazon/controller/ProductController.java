@@ -1,7 +1,9 @@
 package asd.amazon.controller;
 
 import asd.amazon.dto.ProductDTO;
+import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateRequest;
+import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.service.ProductService;
 import asd.amazon.utils.CommonConstant;
@@ -47,5 +49,10 @@ public class ProductController {
     @GetMapping(CommonConstant.PRODUCT_DELETE)
     public ResponseEntity<Boolean> deleteProduct(@RequestParam(name = "id") Long id){
         return ResponseEntity.ok().body(productService.deleteProduct(id));
+    }
+
+    @GetMapping(CommonConstant.PRODUCT_QUANTITY_CHECK)
+    public ResponseEntity<Boolean> checkProductQuantity(@RequestParam(name = "product_id") Long id){
+        return ResponseEntity.ok().body(productService.productQuantityCheck(id));
     }
 }
