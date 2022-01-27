@@ -55,8 +55,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         response.setDate(purchase.getDate());
         response.setShippingAddress(purchase.getShippingAddress());
         response.setPaymentMethod(purchase.getPaymentMethod());
-        //response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
-        response.setTotal(purchase.getProductQuantity()*purchase.getProduct().getBatch().getPrice());
+        response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
         return response;
     }
 
