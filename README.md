@@ -27,7 +27,8 @@ _To customize these credentials check the `application.properties` file._
 Now you are able to run the backend part through running the main method inside `AmazonApplication.java`.😎
 
 It should give something like this in your console:
-![screen]()
+
+![screen](https://github.com/TeamAgileSoftwareDevelopmentUnical/backend/blob/master/Immagine%202022-01-27%20175713.png)
 
 In the `README.md` file of the other repository you can find all the frontend instruction.
 
