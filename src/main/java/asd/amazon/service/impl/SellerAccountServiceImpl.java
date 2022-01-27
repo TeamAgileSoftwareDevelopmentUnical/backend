@@ -59,9 +59,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         //Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
 
         SellerAccount account = mapSellerAccountToEntity(accountDTO);
-        //TODO: check all the fields
         sellerAccountRepository.save(account);
-        System.out.println("creato seller");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

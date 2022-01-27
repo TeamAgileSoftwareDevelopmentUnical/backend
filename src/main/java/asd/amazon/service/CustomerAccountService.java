@@ -20,6 +20,5 @@ public interface CustomerAccountService {
   
     public AccountDTO authenticate(final String username, final String password);
 
-    boolean setShippingAddress(CustomerAddressRequest request);
 
 }

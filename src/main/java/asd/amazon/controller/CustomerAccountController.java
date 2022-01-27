@@ -26,17 +26,6 @@ public class CustomerAccountController {
     @Autowired
     private CustomerAccountService customerAccountService;
 
-/*    @PostMapping(CREATE)
-    public ResponseEntity<CustomerAccountDTO> create(@RequestBody CustomerAccountDTO accountDTO) {
-        return ResponseEntity.ok(customerAccountService.create(accountDTO));
-    }*/
-
-    @PostMapping(LOGIN)
-    public ResponseEntity<CustomerAccountDTO> login(@RequestParam("username") String username,
-                                                    @RequestParam("password") String password) {
-        System.out.println("ciao controller");
-        return ResponseEntity.ok(customerAccountService.login(username, password));
-    }
 
     @DeleteMapping(DELETE + "{id}")
     public HttpStatus delete(@PathVariable(name = "id", required = true) final Long id) throws Exception {
@@ -55,8 +44,4 @@ public class CustomerAccountController {
         return ResponseEntity.ok(customerAccountService.getCustomerAccountById(id));
     }
 
-    @PostMapping(value = "/set-shipping-address")
-    public ResponseEntity<Boolean> addShippingAddress(@RequestBody CustomerAddressRequest request){
-        return ResponseEntity.ok().body(customerAccountService.setShippingAddress(request));
-    }
 }
