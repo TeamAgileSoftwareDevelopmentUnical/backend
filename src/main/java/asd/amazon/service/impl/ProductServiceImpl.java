@@ -12,9 +12,11 @@ import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.request.ProductUpdateRequest;
+import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.BatchResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.SellerResponse;
+import asd.amazon.responses.ViewDetailsResponse;
 import asd.amazon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +85,8 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
+
+
     @Transactional
     @Override
     public ProductResponse getProductFromBatch(Long productID) {
@@ -97,6 +101,9 @@ public class ProductServiceImpl implements ProductService {
         if (product.getId() > 0){
             product.setName(request.getProductName());
             product.setDescription(request.getProductDescription());
+            if(request.getPhoto()!=null)
+                product.setPhoto(request.getPhoto().getBytes(StandardCharsets.UTF_8));
+            //product.setPhoto(request.getPhoto().getBytes());
             Product updatedProduct = productRepository.save(product);
 
             Batch batch = product.getBatch();
@@ -121,6 +128,21 @@ public class ProductServiceImpl implements ProductService {
         }
         return false;
     }
+
+    @Override
+    public ViewDetailsResponse viewDetails(Long viewDetails) {
+        Product product = productRepository.getById(viewDetails);
+        if (product.getId()>0){
+            ViewDetailsResponse response= new ViewDetailsResponse();
+            response.setProductName(product.getName());
+            response.setProductId(product.getId());
+            response.setProductDesc(product.getDescription());
+            response.setProductQuantity(product.getPurchase().getProductQuantity());
+            return response;
+        }
+       return null;
+    }
+
 
     private SellerResponse setSellerInfo(SellerAccount seller) {
         SellerResponse sellerResponse = new SellerResponse();

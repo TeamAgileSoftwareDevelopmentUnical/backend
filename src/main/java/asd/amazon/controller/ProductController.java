@@ -2,7 +2,9 @@ package asd.amazon.controller;
 
 import asd.amazon.dto.ProductDTO;
 import asd.amazon.request.ProductUpdateRequest;
+import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.ProductResponse;
+import asd.amazon.responses.ViewDetailsResponse;
 import asd.amazon.service.ProductService;
 import asd.amazon.utils.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,9 @@ public class ProductController {
     @GetMapping(CommonConstant.PRODUCT_DELETE)
     public ResponseEntity<Boolean> deleteProduct(@RequestParam(name = "id") Long id){
         return ResponseEntity.ok().body(productService.deleteProduct(id));
+    }
+    @GetMapping(CommonConstant.PRODUCT_ViewDetails)
+    public ResponseEntity<ViewDetailsResponse>viewDetailsResponseResponseEntity(@RequestParam(name = "product_id") Long product_id){
+        return ResponseEntity.ok().body(productService.viewDetails(product_id));
     }
 }
