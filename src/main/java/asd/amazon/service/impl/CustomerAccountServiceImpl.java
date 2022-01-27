@@ -40,6 +40,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     public ResponseEntity create(CustomerAccountDTO accountDTO){
 
         accountDTO.setActive(true);
+        accountDTO.setRole("CUSTOMER");
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
@@ -131,11 +132,11 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         //CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(accountDTO.getId());
         //customerAccount.setShippingAddress(accountDTO.getAddress());
         //customerAccountRepository.save(customerAccount);
-        if(a.getRole().equals("CUSTOMER")){
+        if(a.getRole().equals("CUSTOMER") && accountDTO.getAddress()!=null){
             CustomerAccount c = customerAccountRepository.findById(a.getId()).orElseThrow(()-> new Exception("Account not found"));
             c.setShippingAddress(accountDTO.getAddress());
             customerAccountRepository.save(c);
-        }else{
+        }else if(a.getRole().equals("SELLER") && accountDTO.getAddress()!=null){
             SellerAccount s = sellerAccountRepository.findById(a.getId()).orElseThrow(()-> new Exception("Account not found"));
             s.setPaymentAddress(accountDTO.getAddress());
             sellerAccountRepository.save(s);
