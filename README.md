@@ -26,6 +26,9 @@ _To customize these credentials check the `application.properties` file._
 
 Now you are able to run the backend part through running the main method inside `AmazonApplication.java`.😎
 
+It should give something like this in your console:
+![screen]()
+
 In the `README.md` file of the other repository you can find all the frontend instruction.
 
 ... mini tutorial on screen
