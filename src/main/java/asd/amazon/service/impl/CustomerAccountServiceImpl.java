@@ -4,8 +4,10 @@ import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.entity.Account;
 import asd.amazon.entity.CustomerAccount;
+import asd.amazon.entity.SellerAccount;
 import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.CustomerAccountRepository;
+import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.request.CustomerAddressRequest;
 import asd.amazon.service.CustomerAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.Validate;
+import org.webjars.NotFoundException;
 
 import javax.persistence.NonUniqueResultException;
 import java.util.List;
@@ -29,13 +32,14 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private SellerAccountRepository sellerAccountRepository;
+
     @Override
     @Transactional(readOnly = false)
     public ResponseEntity create(CustomerAccountDTO accountDTO){
 
         accountDTO.setActive(true);
-        accountDTO.setRole("CUSTOMER");
-        System.out.println("acc prima = "+accountDTO);
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
@@ -56,26 +60,19 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         //Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
         //Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
 
-        System.out.println("acc = " + accountDTO);
         CustomerAccount account = mapAccount(accountDTO);
-        System.out.println("acc = " + accountDTO);
 
-        //TODO: check all the fields
         customerAccountRepository.save(account);
-        System.out.println("acc = " + account);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @Override
     @Transactional(readOnly = true)
     public CustomerAccountDTO login(final String username, final String password){
-        System.out.println("login");
         CustomerAccount account = customerAccountRepository.findByUsername(username);
         if(account == null){
-            //TODO: EXCEPTION USERNAME NOT FOUND
             return null;
         }
-        //TODO: check password
         customerAccountRepository.checkPassword(password, username);
         return mapAccount(account);
     }
@@ -86,11 +83,9 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         //System.out.println("acc= " + customerAccountRepository.findByUsernameAndPassword(username, password));
         Account account = customerAccountRepository.findByUsernameAndPassword(username, password);
         if(account == null || !account.getActive()){
-            //TODO: EXCEPTION USERNAME NOT FOUND
             return null;
         }
 
-        //TODO: check password
         AccountDTO a = new AccountDTO();
         a.setId(account.getId());
         a.setUsername(account.getUsername());
@@ -99,25 +94,11 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         return a;
     }
 
-    @Override
-    public boolean setShippingAddress(CustomerAddressRequest request) {
-        CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(request.getCustomerId());
-        if (customerAccount == null){
-            return false;
-        }
-        String address = String.format("%s,%s,%d,%s,%s,%s",request.getStreetAndNumber(),
-                request.getAddressLine2(),
-                request.getPostalCode(),
-                request.getProvince(),
-                request.getCity(),
-                request.getCountry());
-        customerAccount.setShippingAddress(address);
-        customerAccountRepository.save(customerAccount);
-        return true;
-    }
+
 
     @Override
     public AccountDTO getCustomerAccountById(Long id) throws Exception {
+        System.out.println("account service");
         Account account = accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
         AccountDTO dto = new CustomerAccountDTO();
         dto.setId(account.getId());
@@ -147,9 +128,18 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         a.setSurname(accountDTO.getSurname());
         a.setEmail(accountDTO.getEmail());
         accountRepository.save(a);
-        CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(accountDTO.getId());
-        customerAccount.setShippingAddress(accountDTO.getAddress());
-        customerAccountRepository.save(customerAccount);
+        //CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(accountDTO.getId());
+        //customerAccount.setShippingAddress(accountDTO.getAddress());
+        //customerAccountRepository.save(customerAccount);
+        if(a.getRole().equals("CUSTOMER")){
+            CustomerAccount c = customerAccountRepository.findById(a.getId()).orElseThrow(()-> new Exception("Account not found"));
+            c.setShippingAddress(accountDTO.getAddress());
+            customerAccountRepository.save(c);
+        }else{
+            SellerAccount s = sellerAccountRepository.findById(a.getId()).orElseThrow(()-> new Exception("Account not found"));
+            s.setPaymentAddress(accountDTO.getAddress());
+            sellerAccountRepository.save(s);
+        }
 
     }
 
