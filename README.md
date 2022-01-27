@@ -1,4 +1,4 @@
-# backend repository💻
+# Backend repository💻
 ## ASD Project's backend using Spring Boot.
 Master degree project for [Agile Software Development](https://sites.google.com/unical.it/inf-agile-software-development) course, [Computer Science](https://informatica.unical.it/home-page), [Unical](https://www.unical.it/portale/).
 Developed by [Team Amazon 1](https://github.com/TeamAgileSoftwareDevelopmentUnical):
@@ -10,24 +10,28 @@ Developed by [Team Amazon 1](https://github.com/TeamAgileSoftwareDevelopmentUnic
 ## How to run the project.
 First of all, clone both the backend and the [frontend](https://github.com/TeamAgileSoftwareDevelopmentUnical/frontend) repositories.
 
-For the backend part we suggest to open the code with `IntelliJ`, possibly the Ultimate version.
-Then you need to add new modules and dependencies:
+For the backend part we've used this modules and dependencies:
 + Spring Boot
 + Spring Web
 + Spring Security
 + Spring Data JPA
 + Lombok
 
-After that, you need to create a new postgres database with the following credentials:
+If you want to check the db with PGAdmin, or whatever viewer, you need to create a new database with the following credentials:
 + username: postgres
 + password: root
 + port: 5432
+
 _To customize these credentials check the `application.properties` file._
 
-Now you are able to run the backend part.😎
+Now you are able to run the backend part through running the main method inside `AmazonApplication.java`.😎
+
+It should give something like this in your console:
+
+![screen](https://github.com/TeamAgileSoftwareDevelopmentUnical/backend/blob/master/Immagine%202022-01-27%20175713.png)
 
 In the `README.md` file of the other repository you can find all the frontend instruction.
 
-...mini tutorial con screen
+... mini tutorial on screen
 
 # Enjoy!
