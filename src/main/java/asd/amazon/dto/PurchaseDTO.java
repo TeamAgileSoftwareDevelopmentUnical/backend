@@ -17,6 +17,8 @@ public class PurchaseDTO {
 
     private ProductDTO soldProduct;
 
+    private Integer productQuantity;
+
     private String shippingAddress;
 
     private String paymentMethod;

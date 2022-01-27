@@ -51,10 +51,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseDTO mapPurchaseToPurchaseDTO(Purchase purchase){
         PurchaseDTO response = new PurchaseDTO();
         response.setId(purchase.getId());
+        // FIXME: purchase.getCustomer()
         response.setCustomer(purchase.getCustomer());
         response.setDate(purchase.getDate());
         response.setShippingAddress(purchase.getShippingAddress());
         response.setPaymentMethod(purchase.getPaymentMethod());
+        // FIXME: total
         response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
         return response;
     }
