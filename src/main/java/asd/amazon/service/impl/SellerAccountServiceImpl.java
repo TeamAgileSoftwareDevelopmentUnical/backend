@@ -36,9 +36,12 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         accountDTO.setActive(true);
         accountDTO.setRole("SELLER");
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
+            System.out.println("email");
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
         if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){
+
+            System.out.println("user");
             return new ResponseEntity<>("Username",HttpStatus.FORBIDDEN);
         }
 
@@ -58,7 +61,8 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         SellerAccount account = mapSellerAccountToEntity(accountDTO);
         //TODO: check all the fields
         sellerAccountRepository.save(account);
-        return new ResponseEntity<>("created",HttpStatus.OK);
+        System.out.println("creato seller");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
