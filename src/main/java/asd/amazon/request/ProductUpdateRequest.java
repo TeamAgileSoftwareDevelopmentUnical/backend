@@ -12,5 +12,7 @@ public class ProductUpdateRequest {
     private String productName;
     private String productDescription;
     private Float productPrice;
+    private String photo;
     private Float productQuantity;
+
 }
