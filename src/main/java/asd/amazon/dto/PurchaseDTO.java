@@ -1,6 +1,7 @@
 package asd.amazon.dto;
 
 import asd.amazon.entity.CustomerAccount;
+import asd.amazon.responses.ProductResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class PurchaseDTO {
 
     private LocalDateTime date;
 
-    private ProductDTO soldProduct;
+    private ProductResponse soldProduct;
 
     private Integer productQuantity;
 

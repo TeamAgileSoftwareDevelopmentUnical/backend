@@ -26,6 +26,6 @@ public class CommonConstant {
     // purchase URLS
     public static final String PURCHASES_ROOT = "/purchases";
     public static final String PURCHASES_CREATE = "/purchases-create";
-    public static final String PURCHASES = "/get-purchases";
+    public static final String PURCHASES_GET = "/get-purchases";
 
 }

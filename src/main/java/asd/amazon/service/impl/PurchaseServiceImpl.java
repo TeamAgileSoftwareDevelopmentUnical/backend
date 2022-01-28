@@ -8,6 +8,7 @@ import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.PurchaseRepository;
 import asd.amazon.responses.ProductResponse;
+import asd.amazon.responses.PurchaseResponse;
 import asd.amazon.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -26,39 +27,37 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     BatchRepository batchRepository;
 
+    @Autowired
+    ProductServiceImpl productService;
+
     @Transactional
     @Override
-    public List<PurchaseDTO> getPurchasesByCustomerId(Long customerID) {
-        List<PurchaseDTO> responses = new ArrayList<>();
-        System.out.println("get purchases in backend of the customer: "+customerID);
+    public List<PurchaseResponse> getPurchasesByCustomerId(Long customerID) {
+        List<PurchaseResponse> responses = new ArrayList<>();
         purchaseRepository.findAllByCustomerIdOrderByDateDesc(customerID).forEach(purchase -> {
-            responses.add(mapPurchaseToPurchaseDTO(purchase));
+            responses.add(mapPurchaseToPurchaseResponse(purchase));
         });
-        System.out.println(responses);
         return responses;
+    }
+
+    private PurchaseResponse mapPurchaseToPurchaseResponse(Purchase purchase) {
+        PurchaseResponse purchaseResponse = new PurchaseResponse();
+        purchaseResponse.setProductName(purchase.getProduct().getName());
+        purchaseResponse.setProductDescription(purchase.getProduct().getDescription());
+        purchaseResponse.setProductPrice(purchase.getProduct().getBatch().getPrice());
+        purchaseResponse.setProductQuantity(purchase.getProductQuantity());
+        purchaseResponse.setTotalPrice(purchaseResponse.getProductPrice()*purchaseResponse.getProductQuantity());
+        purchaseResponse.setSellerUsername(purchase.getProduct().getSellerAccounts().getUsername());
+        purchaseResponse.setPurchaseDate(purchase.getDate());
+        purchaseResponse.setPaymentMethod(purchase.getPaymentMethod());
+        purchaseResponse.setShippingAddress(purchase.getShippingAddress());
+        purchaseResponse.setPhoto(new String(purchase.getProduct().getPhoto()));
+        return purchaseResponse;
     }
 
     @Override
     public Purchase createPurchase(PurchaseDTO purchaseDTO) {
         return mapPurchaseDTOToPurchase(purchaseDTO);
-    }
-
-    private Float getProductPrice(Purchase purchase)
-    {
-        return batchRepository.findBatchByProduct(purchase.getProduct().getId()).getPrice();
-    }
-
-    private PurchaseDTO mapPurchaseToPurchaseDTO(Purchase purchase){
-        PurchaseDTO response = new PurchaseDTO();
-        response.setId(purchase.getId());
-        // FIXME: purchase.getCustomer()
-        response.setCustomer(purchase.getCustomer());
-        response.setDate(purchase.getDate());
-        response.setShippingAddress(purchase.getShippingAddress());
-        response.setPaymentMethod(purchase.getPaymentMethod());
-        // FIXME: total
-        response.setTotal(purchase.getProductQuantity()*getProductPrice(purchase));
-        return response;
     }
 
     private Purchase mapPurchaseDTOToPurchase(PurchaseDTO purchaseDTO){

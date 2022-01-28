@@ -56,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .antMatchers("/authenticate", "/create-customer", "/create-seller")
                 .permitAll()
                 .antMatchers("/product/upload","/product/update","/product/delete").hasAuthority("SELLER")
-                .antMatchers("/product/get-stand-products", "/product/update-availability","/payment/*","/purchase/*").hasAuthority("CUSTOMER")
+                .antMatchers("/product/get-stand-products", "/product/update-availability","/payment/*","/purchases/*").hasAuthority("CUSTOMER")
                 //.antMatchers("/customer-account/delete","/customer-account/get-account/*","/customer-account/update").hasAnyAuthority()
                 .anyRequest()
                 .authenticated()

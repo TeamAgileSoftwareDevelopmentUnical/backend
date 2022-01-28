@@ -205,7 +205,7 @@ public class ProductServiceImpl implements ProductService {
         return response;
     }
 
-    private ProductResponse mapProduct(Product product){//TODO: do map
+    public ProductResponse mapProduct(Product product){//TODO: do map
         ProductResponse response = new ProductResponse();
         response.setProductId(product.getId());
         response.setProductName(product.getName());
