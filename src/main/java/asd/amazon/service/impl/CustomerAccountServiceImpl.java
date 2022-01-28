@@ -44,7 +44,7 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
-        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){
+        if(accountRepository.findByUsername(accountDTO.getUsername())!=null){
             return new ResponseEntity<>("Username",HttpStatus.FORBIDDEN);
         }
 
@@ -54,12 +54,9 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         Validate.notNull(accountDTO.getName());
         Validate.notNull(accountDTO.getSurname());
         Validate.notNull(accountDTO.getEmail());
-
-        //Validate.matchesPattern(accountDTO.getUsername(), "\\w\\d{3,25}");
-        //Validate.matchesPattern(accountDTO.getPassword(), "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
-        //Validate.matchesPattern(accountDTO.getName(), "\\w{5,20}");
-        //Validate.matchesPattern(accountDTO.getSurname(), "\\w{5,20}");
-        //Validate.matchesPattern(accountDTO.getEmail(), "/^(S+)@(\\\\S+)$");
+        if(accountDTO.getPassword().length()<6){
+            return new ResponseEntity<>("Password",HttpStatus.FORBIDDEN);
+        }
 
         CustomerAccount account = mapAccount(accountDTO);
 
@@ -99,7 +96,6 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
 
     @Override
     public AccountDTO getCustomerAccountById(Long id) throws Exception {
-        System.out.println("account service");
         Account account = accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
         AccountDTO dto = new CustomerAccountDTO();
         dto.setId(account.getId());
@@ -125,13 +121,20 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     @Override
     public void update(AccountDTO accountDTO) throws Exception {
         Account a = accountRepository.findById(accountDTO.getId()).orElseThrow(() -> new Exception("Account not found."));
+        Validate.notNull(accountDTO);
+        Validate.notNull(accountDTO.getUsername());
+        Validate.notNull(accountDTO.getPassword());
+        Validate.notNull(accountDTO.getName());
+        Validate.notNull(accountDTO.getSurname());
+        Validate.notNull(accountDTO.getEmail());
+        if(accountDTO.getPassword().length()<6){
+            throw new Exception("Password must be more than 6 characters.");
+        }
         a.setName(accountDTO.getName());
         a.setSurname(accountDTO.getSurname());
         a.setEmail(accountDTO.getEmail());
+
         accountRepository.save(a);
-        //CustomerAccount customerAccount = customerAccountRepository.findCustomerAccountsById(accountDTO.getId());
-        //customerAccount.setShippingAddress(accountDTO.getAddress());
-        //customerAccountRepository.save(customerAccount);
         if(a.getRole().equals("CUSTOMER") && accountDTO.getAddress()!=null){
             CustomerAccount c = customerAccountRepository.findById(a.getId()).orElseThrow(()-> new Exception("Account not found"));
             c.setShippingAddress(accountDTO.getAddress());

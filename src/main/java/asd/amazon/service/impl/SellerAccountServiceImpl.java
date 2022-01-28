@@ -36,12 +36,9 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         accountDTO.setActive(true);
         accountDTO.setRole("SELLER");
         if(accountRepository.findByEmailAndActiveTrue(accountDTO.getEmail())!=null){
-            System.out.println("email");
             return new ResponseEntity<>("Email",HttpStatus.FORBIDDEN);
         }
-        if(accountRepository.findByUsernameAndActiveTrue(accountDTO.getUsername())!=null){
-
-            System.out.println("user");
+        if(accountRepository.findByUsername(accountDTO.getUsername())!=null){
             return new ResponseEntity<>("Username",HttpStatus.FORBIDDEN);
         }
 

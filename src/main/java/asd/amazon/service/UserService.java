@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //Logic to get the user form the Database
-        Account a = accountRepository.findByUsernameAndActiveTrue(username);
+        Account a = accountRepository.findByUsername(username);
         if(a ==null){
             throw new UsernameNotFoundException("User not found");
         }
