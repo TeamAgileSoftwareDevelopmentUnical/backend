@@ -8,6 +8,7 @@ import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
+import asd.amazon.responses.PaymentPreProcess;
 import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.ViewDetailsResponse;
@@ -34,7 +35,5 @@ public interface ProductService {
 
     public ViewDetailsResponse viewDetails (Long viewDetails);
 
-
-
-    Boolean productQuantityCheck(Long productId);
+    PaymentPreProcess productQuantityCheck(Long productId, int quantity, Long customerID);
 }

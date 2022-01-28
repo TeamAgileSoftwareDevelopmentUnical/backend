@@ -13,4 +13,5 @@ public class CreatePaymentResponse {
     private String status;
     private Long amount;
     private String paymentID;
+    private String message;
 }

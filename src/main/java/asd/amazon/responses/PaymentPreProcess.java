@@ -9,9 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PaymentConfirmResponse {
-    private String status;
-    private double amount;
-    private String paymentID;
+public class PaymentPreProcess {
+    private boolean status;
     private String message;
 }

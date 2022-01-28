@@ -76,12 +76,21 @@ public class PaymentController {
     @PostMapping(CommonConstant.PAYMENT_SUCCESS)
     public ResponseEntity<PaymentConfirmResponse> successPayment(@RequestBody PayPalConfirmPaymentRequest request){
         final double[] amount = new double[1];
-        PaymentConfirmResponse response = null;
+        PaymentConfirmResponse response = new PaymentConfirmResponse();
         try {
+            // check
+
+            //check available quantity before
+            boolean quantityCheck = checkProductQuantity(request.getProductIds());
+            if (!quantityCheck){
+                response.setMessage("Product out of stock");
+                response.setStatus("Failed");
+                return ResponseEntity.ok().body(response);
+            }
+
             Payment payment = paymentService.executePayment(request.getPaymentId(), request.getPayerId());
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")){
-                response = new PaymentConfirmResponse();
                 response.setStatus(payment.getState());
                 response.setPaymentID(payment.getId());
 
@@ -94,7 +103,7 @@ public class PaymentController {
                 });
                 response.setAmount(amount[0]);
                 // add purchase information
-                addPurchaseInformation(request.getCustomerId(),request.getProductIds());
+                addPurchaseInformation(request.getCustomerId(),request.getProductIds(),"PayPal");
                 return ResponseEntity.ok().body(response);
             }
         }catch (Exception ex){
@@ -103,7 +112,14 @@ public class PaymentController {
         return ResponseEntity.ok().body(response);
     }
 
-    private void addPurchaseInformation(Long customerId, ArrayList<ProductInfo> productInfos) {
+    private boolean checkProductQuantity(ArrayList<ProductInfo> productIds) {
+        return productIds.stream().allMatch(productInfo -> {
+            Product product = productRepository.getById(productInfo.getProductId());
+            return (product.getBatch().getAvailableQuantity()-productInfo.getQuantity())>=0;
+        });
+    }
+
+    private void addPurchaseInformation(Long customerId, ArrayList<ProductInfo> productInfos, String method) {
         productInfos.forEach(productInfo -> {
             Purchase purchase = new Purchase();
 
@@ -118,7 +134,7 @@ public class PaymentController {
 
             purchase.setProduct(product);
             purchase.setCustomer(customer);
-            purchase.setPaymentMethod("PayPal");
+            purchase.setPaymentMethod(method);
             purchase.setProductQuantity(productInfo.getQuantity());
             purchase.setShippingAddress(customer.getShippingAddress());
             purchase.setDate(LocalDateTime.now());
@@ -131,9 +147,17 @@ public class PaymentController {
     @Transactional
     @PostMapping(CommonConstant.PAYMENT_CREATE_STRIPE)
     public ResponseEntity<CreatePaymentResponse> stripePaymentCreate(@RequestBody CreatePayment createPayment){
-        CreatePaymentResponse response = paymentService.stripePaymentCreate(createPayment);
+        CreatePaymentResponse response = null;
+        boolean result = checkProductQuantity(createPayment.getProductIds());
+        if (!result){
+            response = new CreatePaymentResponse();
+            response.setMessage("Product out of stock");
+            response.setStatus("Failed");
+            return ResponseEntity.ok().body(response);
+        }
+        response = paymentService.stripePaymentCreate(createPayment);
         if (response != null){
-            addPurchaseInformation(createPayment.getCustomerId(),createPayment.getProductIds());
+            addPurchaseInformation(createPayment.getCustomerId(),createPayment.getProductIds(),"CreditCard");
         }
         return ResponseEntity.ok().body(response);
     }

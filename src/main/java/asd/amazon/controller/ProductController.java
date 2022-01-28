@@ -5,6 +5,7 @@ import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
+import asd.amazon.responses.PaymentPreProcess;
 import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.ViewDetailsResponse;
@@ -64,7 +65,9 @@ public class ProductController {
     }
 
     @GetMapping(CommonConstant.PRODUCT_QUANTITY_CHECK)
-    public ResponseEntity<Boolean> checkProductQuantity(@RequestParam(name = "product_id") Long id){
-        return ResponseEntity.ok().body(productService.productQuantityCheck(id));
+    public ResponseEntity<PaymentPreProcess> checkProductQuantity(@RequestParam(name = "product_id") Long id,
+                                                                  @RequestParam(name = "quantity") int quantity,
+                                                                  @RequestParam(name = "customer_id") Long customer_id){
+        return ResponseEntity.ok().body(productService.productQuantityCheck(id,quantity,customer_id));
     }
 }

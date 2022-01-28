@@ -3,23 +3,17 @@ package asd.amazon.service.impl;
 
 import asd.amazon.dto.BatchDTO;
 import asd.amazon.dto.ProductDTO;
-import asd.amazon.entity.Batch;
-import asd.amazon.entity.Product;
-import asd.amazon.entity.Purchase;
-import asd.amazon.entity.SellerAccount;
+import asd.amazon.entity.*;
 import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
+import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
 import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
 import asd.amazon.request.ViewDetails;
-import asd.amazon.responses.BatchResponse;
-import asd.amazon.responses.ProductQuantityCheckResponse;
-import asd.amazon.responses.ProductResponse;
-import asd.amazon.responses.SellerResponse;
-import asd.amazon.responses.ViewDetailsResponse;
+import asd.amazon.responses.*;
 import asd.amazon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
     private SellerAccountRepository sellerAccountRepository;
     @Autowired
     private BatchRepository batchRepository;
+    @Autowired
+    private CustomerAccountRepository customerAccountRepository;
 
     @Transactional
     @Override
@@ -170,9 +166,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Boolean productQuantityCheck(Long id) {
+    public PaymentPreProcess productQuantityCheck(Long id, int quantity, Long customerID) {
+        PaymentPreProcess response = new PaymentPreProcess();
+        // check customer shipping address
+        CustomerAccount account = customerAccountRepository.findCustomerAccountsById(customerID);
+        if (account.getShippingAddress().isEmpty()){
+            response.setStatus(false);
+            response.setMessage("Shipping address not found!");
+            return response;
+        }
+        //check product quantity
         Product product = productRepository.getById(id);
-        return product.getBatch().getAvailableQuantity()>0;
+        if((product.getBatch().getAvailableQuantity()-quantity)<0){
+            response.setStatus(false);
+            response.setMessage("Product out of stock");
+            return response;
+        }
+
+        response.setMessage("Product ["+product.getName()+"] is Ready for payment");
+        response.setStatus(true);
+        return response;
     }
 
     private SellerResponse setSellerInfo(SellerAccount seller) {
