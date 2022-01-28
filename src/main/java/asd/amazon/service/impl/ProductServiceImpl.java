@@ -172,7 +172,7 @@ public class ProductServiceImpl implements ProductService {
         CustomerAccount account = customerAccountRepository.findCustomerAccountsById(customerID);
         if (account.getShippingAddress().isEmpty()){
             response.setStatus(false);
-            response.setMessage("Shipping address not found!");
+            response.setMessage("Shipping address not found!\nUpdate your shipping address in your profile!");
             return response;
         }
         //check product quantity
