@@ -1,22 +1,23 @@
 package asd.amazon.filter;
 
 
-import asd.amazon.service.UserService;
-import asd.amazon.utils.JWTUtility;
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import asd.amazon.service.UserService;
+import asd.amazon.utils.JWTUtility;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -42,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
             UserDetails userDetails
                     = userService.loadUserByUsername(userName);
 
-            if(jwtUtility.validateToken(token,userDetails)) {
+            if(Boolean.TRUE.equals(jwtUtility.validateToken(token,userDetails))) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                         = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());

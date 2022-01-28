@@ -1,11 +1,11 @@
 package asd.amazon.service;
 
-import asd.amazon.dto.AccountDTO;
-import asd.amazon.dto.SellerAccountDTO;
-import org.springframework.http.HttpStatus;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import asd.amazon.dto.AccountDTO;
+import asd.amazon.dto.SellerAccountDTO;
 
 public interface SellerAccountService {
 
@@ -14,4 +14,6 @@ public interface SellerAccountService {
     public void delete(SellerAccountDTO sellerAccountDTO);
 
     public List<AccountDTO> getAllSellers() throws Exception;
+    
+    public AccountDTO getSellerAccountById(Long id) throws Exception;
 }

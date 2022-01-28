@@ -1,10 +1,9 @@
 package asd.amazon.dto;
 
+import java.time.LocalDateTime;
+
 import asd.amazon.entity.CustomerAccount;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class PurchaseDTO {

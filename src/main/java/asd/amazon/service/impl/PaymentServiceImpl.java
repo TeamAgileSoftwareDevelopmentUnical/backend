@@ -1,26 +1,28 @@
 package asd.amazon.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
+import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.APIContext;
+import com.stripe.Stripe;
+import com.stripe.model.Charge;
+import com.stripe.param.ChargeCreateParams;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import asd.amazon.request.CreatePayment;
 import asd.amazon.request.PaymentRequest;
 import asd.amazon.responses.CreatePaymentResponse;
 import asd.amazon.service.PaymentService;
-import com.paypal.api.payments.*;
-import com.paypal.base.rest.APIContext;
-import com.stripe.Stripe;
-import com.stripe.model.Charge;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.ChargeCreateParams;
-import com.stripe.param.PaymentIntentCreateParams;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {

@@ -1,34 +1,29 @@
 package asd.amazon.service.impl;
 
 
-import asd.amazon.dto.BatchDTO;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import asd.amazon.dto.ProductDTO;
 import asd.amazon.entity.Batch;
 import asd.amazon.entity.Product;
-import asd.amazon.entity.Purchase;
 import asd.amazon.entity.SellerAccount;
 import asd.amazon.entity.enums.Type;
 import asd.amazon.repository.BatchRepository;
 import asd.amazon.repository.ProductRepository;
 import asd.amazon.repository.SellerAccountRepository;
-import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
-import asd.amazon.request.ViewDetails;
 import asd.amazon.responses.BatchResponse;
-import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.SellerResponse;
 import asd.amazon.responses.ViewDetailsResponse;
 import asd.amazon.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -45,9 +40,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> getProductBy(Long sellerID) {
         List<ProductResponse> responses = new ArrayList<>();
         SellerAccount seller = sellerAccountRepository.getById(sellerID);
-        seller.getProduct().forEach(product -> {
-            responses.add(mapProduct(product));
-        });
+        seller.getProducts().forEach(product -> responses.add(mapProduct(product)));
         return responses;
     }
 
@@ -132,6 +125,7 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(product.getId());
         System.out.println(product.getBatch().getId());
 
+    // FIXME: product should always be != null, so the return statements are kinda useless, should be a void function?
         if (product != null){
             Batch batch = product.getBatch();
             batch.setAvailableQuantity(newAvailability);
@@ -204,5 +198,20 @@ public class ProductServiceImpl implements ProductService {
         response.setBatch(setBatch(product.getBatch()));
         response.setSeller(setSellerInfo(product.getSellerAccounts()));
         return response;
+    }
+// FIXME: Major incoherence between Product and ProductDTO!
+    public static ProductDTO mapProductoToProductDTO(Product product) {
+        ProductDTO returnValue = new ProductDTO();
+
+        returnValue.setId(product.getId());
+        returnValue.setName(product.getName());
+        returnValue.setDescription(product.getDescription());
+        // returnValue.setPrice(product.getPrice());
+        // returnValue.setSellerID(product.getSellerAccounts());
+        // returnValue.setAvailableQuantity(product.getAvailableQuantity());
+        returnValue.setType(product.getType());
+        // returnValue.setPhoto(product.getPhoto());
+
+        return returnValue;
     }
 }

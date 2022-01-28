@@ -1,5 +1,12 @@
 package asd.amazon.service.impl;
 
+import org.apache.commons.lang3.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import asd.amazon.dto.AccountDTO;
 import asd.amazon.dto.CustomerAccountDTO;
 import asd.amazon.entity.Account;
@@ -8,20 +15,7 @@ import asd.amazon.entity.SellerAccount;
 import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.CustomerAccountRepository;
 import asd.amazon.repository.SellerAccountRepository;
-import asd.amazon.request.CustomerAddressRequest;
 import asd.amazon.service.CustomerAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang3.Validate;
-import org.webjars.NotFoundException;
-
-import javax.persistence.NonUniqueResultException;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerAccountServiceImpl implements CustomerAccountService {

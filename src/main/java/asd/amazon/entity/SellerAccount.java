@@ -1,18 +1,22 @@
 package asd.amazon.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.Hibernate;
+import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
-import java.util.Objects;
 
+import org.hibernate.Hibernate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
 @Entity
 @Table(name = "SELLER")
 @AllArgsConstructor
@@ -22,7 +26,7 @@ import java.util.Objects;
 public class SellerAccount extends Account{
 
     @OneToMany(mappedBy = "sellerAccounts")
-    private List<Product> product;
+    private List<Product> products;
 
     @Column(name = "PAYMENT_ADDRESS", nullable = true)
     private String paymentAddress;

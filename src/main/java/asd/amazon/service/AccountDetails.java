@@ -1,14 +1,15 @@
 package asd.amazon.service;
 
-import asd.amazon.entity.Account;
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.Collections;
+import asd.amazon.entity.Account;
 
 public class AccountDetails implements UserDetails {
 

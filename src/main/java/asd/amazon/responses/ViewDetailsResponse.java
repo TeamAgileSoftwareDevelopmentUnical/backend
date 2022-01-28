@@ -1,7 +1,10 @@
 package asd.amazon.responses;
 
-import asd.amazon.entity.enums.Type;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor

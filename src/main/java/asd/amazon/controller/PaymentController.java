@@ -1,6 +1,23 @@
 package asd.amazon.controller;
 
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import asd.amazon.entity.Batch;
 import asd.amazon.entity.CustomerAccount;
 import asd.amazon.entity.Product;
@@ -18,20 +35,6 @@ import asd.amazon.responses.PaymentConfirmResponse;
 import asd.amazon.responses.PaypalPaymentResponse;
 import asd.amazon.service.PaymentService;
 import asd.amazon.utils.CommonConstant;
-import com.paypal.api.payments.Links;
-import com.paypal.api.payments.Payment;
-import com.stripe.model.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
 
 @CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.PATCH,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST})
 @RestController

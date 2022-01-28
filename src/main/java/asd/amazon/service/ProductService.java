@@ -1,18 +1,12 @@
 package asd.amazon.service;
 
+import java.util.List;
+
 import asd.amazon.dto.ProductDTO;
-import asd.amazon.entity.Batch;
-import asd.amazon.entity.Product;
-import asd.amazon.entity.enums.Type;
-import asd.amazon.request.ProductQuantityCheckRequest;
 import asd.amazon.request.ProductUpdateAvailabilityRequest;
 import asd.amazon.request.ProductUpdateRequest;
-import asd.amazon.request.ViewDetails;
-import asd.amazon.responses.ProductQuantityCheckResponse;
 import asd.amazon.responses.ProductResponse;
 import asd.amazon.responses.ViewDetailsResponse;
-
-import java.util.List;
 
 public interface ProductService {
 

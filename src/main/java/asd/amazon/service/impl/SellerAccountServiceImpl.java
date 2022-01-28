@@ -1,10 +1,9 @@
 package asd.amazon.service.impl;
 
 import asd.amazon.dto.AccountDTO;
-import asd.amazon.dto.CustomerAccountDTO;
+import asd.amazon.dto.ProductDTO;
 import asd.amazon.dto.SellerAccountDTO;
-import asd.amazon.entity.Account;
-import asd.amazon.entity.CustomerAccount;
+import asd.amazon.entity.Product;
 import asd.amazon.entity.SellerAccount;
 import asd.amazon.repository.AccountRepository;
 import asd.amazon.repository.SellerAccountRepository;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NonUniqueResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,10 +100,10 @@ public class SellerAccountServiceImpl implements SellerAccountService {
     public List<AccountDTO> getAllSellers() throws Exception {
         List<SellerAccount> sellers  = sellerAccountRepository.findAll();
 
-        List<AccountDTO> sellersDTO = new ArrayList<AccountDTO>();
+        List<AccountDTO> sellersDTO = new ArrayList<>();
 
         for(int i=0; i<sellers.size(); i++) {
-            if(sellers.get(i).getActive()) {
+            if(Boolean.TRUE.equals(sellers.get(i).getActive())) {
                 AccountDTO dto = new SellerAccountDTO();
 
                 dto.setId(sellers.get(i).getId());
@@ -121,5 +119,31 @@ public class SellerAccountServiceImpl implements SellerAccountService {
         }
 
         return sellersDTO;
+    }
+
+    @Override
+    public AccountDTO getSellerAccountById(Long id) throws Exception {
+        System.out.println("account service");
+        SellerAccount account = (SellerAccount) accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found."));
+        SellerAccountDTO dto = new SellerAccountDTO();
+        dto.setId(account.getId());
+        dto.setUsername(account.getUsername());
+        dto.setPassword(account.getPassword());
+        dto.setName(account.getName());
+        dto.setSurname(account.getSurname());
+        dto.setEmail(account.getEmail());
+        dto.setActive(account.getActive());
+
+        List<Product> products = account.getProducts();
+        List<ProductDTO> productsDTO = null;
+
+        for (Product product : products) {
+            // TODO: map each product with a DTO
+        }
+        
+        dto.setProducts(productsDTO);
+        dto.setPaymentAddress(account.getPaymentAddress());
+
+        return dto;
     }
 }

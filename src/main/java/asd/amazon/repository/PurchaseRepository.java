@@ -1,14 +1,12 @@
 package asd.amazon.repository;
 
-import asd.amazon.entity.Product;
-import asd.amazon.entity.Purchase;
-import asd.amazon.entity.enums.Type;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import asd.amazon.entity.Purchase;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long>, JpaSpecificationExecutor<Purchase> {
