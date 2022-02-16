@@ -170,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
         PaymentPreProcess response = new PaymentPreProcess();
         // check customer shipping address
         CustomerAccount account = customerAccountRepository.findCustomerAccountsById(customerID);
-        if (account.getShippingAddress().isEmpty()){
+        if (account.getShippingAddress() == null || account.getShippingAddress().isEmpty()){
             response.setStatus(false);
             response.setMessage("Shipping address not found!\nUpdate your shipping address in your profile!");
             return response;
